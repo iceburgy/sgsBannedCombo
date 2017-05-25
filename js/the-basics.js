@@ -1,5 +1,20 @@
 $(document).ready(function () {
   var goodtogo="无禁将组合，请放心使用！";
+  function isUpperCase(aCharacter)
+  {
+    return (aCharacter >= 'A') && (aCharacter <= 'Z');
+  }
+  function getInitials(input)
+  {
+    var res = "";
+    for (var i = 0, len = input.length; i < len; i++) {
+      if(isUpperCase(input[i]))
+      {
+        res = res+input[i];
+      }
+    }
+    return res;
+  }
   var substringMatcher = function (strs) {
     return function findMatches(q, cb) {
       var matches, substringRegex;
@@ -13,7 +28,8 @@ $(document).ready(function () {
       // iterate through the pool of strings and for any string that
       // contains the substring `q`, add it to the `matches` array
       $.each(strs, function (i, str) {
-        if (substrRegex.test(str)) {
+        var initials=getInitials(str);
+        if (substrRegex.test(str) || substrRegex.test(initials)) {
           matches.push(str);
         }
       });
