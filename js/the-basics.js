@@ -89,6 +89,7 @@ $(document).ready(function () {
   $("#btnClear").click(function () {
     $(".typeahead").val("");
     $("#outputwrapper").text("");
+    $("#skillswrapper").text("");
     $(".typeahead").focus();
   });
 
