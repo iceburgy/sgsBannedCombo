@@ -104,7 +104,7 @@ $(document).ready(function () {
       var msg="keys missing base:"+JSON.stringify(matches);
       $("#outputwrapper").text(msg);
     }else{
-      $("#outputwrapper").text("Dataset is valid");
+      $("#outputwrapper").text("Dataset is good");
     }
   }
 

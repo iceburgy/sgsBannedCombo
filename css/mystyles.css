@@ -15,6 +15,13 @@ div#inputwrapper {
     left: 50%;
     transform: translate(-50%,-50%);
 }
+div#notes {
+    white-space: nowrap;
+    position: absolute;
+    bottom:  10%;
+    left: 50%;
+    transform: translate(-50%,50%);
+}
 input#btnClear {
     float: left;
     margin-right: 1em;
