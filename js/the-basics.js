@@ -78,7 +78,7 @@ $(document).ready(function () {
         } else {
           banned = goodtogo;
         }
-
+        $("#skillswrapper").text(wujiangBaseMap[key]);
       }
       $("#outputwrapper").text(banned);
     }
