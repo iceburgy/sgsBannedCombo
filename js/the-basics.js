@@ -10,7 +10,7 @@ $(document).ready(function () {
   }
   function readSgsWujiangSet()
   {
-    $.ajax("https://docs.google.com/feeds/download/spreadsheets/Export?key=1_Wel_JJ-zD-mL8AKWb_P3dhJiQeERwdgwtTMVXMv2mI&exportFormat=csv").done(function(result){
+    $.ajax("https://spreadsheets.google.com/tq?key=1_Wel_JJ-zD-mL8AKWb_P3dhJiQeERwdgwtTMVXMv2mI&tqx=out:csv").done(function(result){
       var bs=result.split("\n");
       for (var i = 0; i < bs.length; i++) {
         bs[i]=bs[i].replace(/\r?\n|\r/g, " ").trim();
@@ -37,7 +37,7 @@ $(document).ready(function () {
 
   function readSgsWujiangMap()
   {
-    $.ajax("https://docs.google.com/feeds/download/spreadsheets/Export?key=1oQ6G8YwcG1d53P8MBtsAmN2PI-MtzvVZYvcb8HBRHWs&exportFormat=csv").done(function(result){
+    $.ajax("https://spreadsheets.google.com/tq?key=1oQ6G8YwcG1d53P8MBtsAmN2PI-MtzvVZYvcb8HBRHWs&tqx=out:csv").done(function(result){
       var bm=new Map();
       var rows = result.split("\n");
       for (var i = 0; i < rows.length; i++) {
