@@ -2,20 +2,6 @@ $(document).ready(function () {
   var goodtogo = "无禁将组合，请放心使用！";
   var wujiangBaseSet = Object.keys(wujiangBaseMap);
 
-  function isUpperCase(aCharacter) {
-    return (aCharacter >= 'A') && (aCharacter <= 'Z');
-  }
-
-  function getInitials(input) {
-    var res = "";
-    for (var i = 0, len = input.length; i < len; i++) {
-      if (isUpperCase(input[i])) {
-        res = res + input[i];
-      }
-    }
-    return res;
-  }
-
   var substringMatcher = function (strs) {
     return function findMatches(q, cb) {
       var matches, substringRegex;
@@ -24,13 +10,16 @@ $(document).ready(function () {
       matches = [];
 
       // regex used to determine if a string contains the substring `q`
-      substrRegex = new RegExp(q, 'i');
+      var newQ=".*";
+      for(k=0;k< q.length;k++){
+        newQ+=q[k]+".*";
+      }
+      substrRegex = new RegExp(newQ, 'i');
 
       // iterate through the pool of strings and for any string that
       // contains the substring `q`, add it to the `matches` array
       $.each(strs, function (i, str) {
-        var initials = getInitials(str);
-        if (substrRegex.test(str) || substrRegex.test(initials)) {
+        if (substrRegex.test(str)) {
           matches.push(str);
         }
       });
