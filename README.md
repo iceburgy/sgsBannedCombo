@@ -1,5 +1,6 @@
 # sgsBannedCombo
 三国杀禁将表
+http://bit.ly/1pXtpvz
 
 # Feature implemented:
 - Mobile friendliness

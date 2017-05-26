@@ -1,52 +1,5 @@
 $(document).ready(function () {
   var goodtogo = "无禁将组合，请放心使用！";
-  var bannedKeys = [];
-  var bannedMap = new Map();
-
-  readSgsWujiangSet();
-  readSgsWujiangMap();
-  function populateBannedSet(bs) {
-    bannedKeys = bs;
-  }
-
-  function readSgsWujiangSet() {
-    d3.csv("https://spreadsheets.google.com/tq?key=1_Wel_JJ-zD-mL8AKWb_P3dhJiQeERwdgwtTMVXMv2mI&tqx=out:csv&callback=googleDocCallback", function (err, data) {
-      var bs = d3.csv.format(data).split("\n");
-      for (var i = 0; i < bs.length; i++) {
-        bs[i] = bs[i].replace(/\r?\n|\r/g, " ").trim();
-      }
-
-      populateBannedSet(bs);
-      $('.typeahead').typeahead({
-            hint: false,
-            highlight: true,
-            minLength: 1
-          },
-          {
-            name: 'bannedKeys',
-            source: substringMatcher(bs),
-            limit: 20
-          }
-      );
-    });
-  }
-
-  function populateBannedMap(bm) {
-    bannedMap = bm;
-  }
-
-  function readSgsWujiangMap() {
-    d3.csv("https://spreadsheets.google.com/tq?key=1oQ6G8YwcG1d53P8MBtsAmN2PI-MtzvVZYvcb8HBRHWs&tqx=out:csv&callback=googleDocCallback", function (err, data) {
-      var bm = new Map();
-      var rows = d3.csv.format(data).split("\n");
-      for (var i = 0; i < rows.length; i++) {
-        var cells = rows[i].split(",");
-        bm.set(cells[0].replace(/\r?\n|\r/g, " ").trim(), cells[1].replace(/\r?\n|\r/g, " ").trim());
-
-      }
-      populateBannedMap(bm);
-    });
-  }
 
   function isUpperCase(aCharacter) {
     return (aCharacter >= 'A') && (aCharacter <= 'Z');
@@ -61,8 +14,6 @@ $(document).ready(function () {
     }
     return res;
   }
-
-  window.googleDocCallback = function () { return true; };
 
   var substringMatcher = function (strs) {
     return function findMatches(q, cb) {
@@ -87,12 +38,24 @@ $(document).ready(function () {
     };
   };
 
+  $('.typeahead').typeahead({
+        hint: false,
+        highlight: true,
+        minLength: 1
+      },
+      {
+        name: 'bannedKeys',
+        source: substringMatcher(wujiangBaseSet),
+        limit: 20
+      }
+  );
+
   function selectHandler(obj, datum, name) {
     var key = datum.replace(/\r?\n|\r/g, " ").trim();
     var banned = "";
-    if ($.inArray(key, bannedKeys) >= 0) {
-      if (bannedMap.get(key)) {
-        banned = bannedMap.get(key);
+    if ($.inArray(key, wujiangBaseSet) >= 0) {
+      if (wujiangBannedMap[key]) {
+        banned = wujiangBannedMap[key];
       } else {
         banned = goodtogo;
       }
@@ -106,9 +69,9 @@ $(document).ready(function () {
   function arrowHandler() {
     var key = $(".typeahead").val();
     var banned = "";
-    if ($.inArray(key, bannedKeys) >= 0) {
-      if (bannedMap.get(key)) {
-        banned = bannedMap.get(key);
+    if ($.inArray(key, wujiangBaseSet) >= 0) {
+      if (wujiangBannedMap[key]) {
+        banned = wujiangBannedMap[key];
       } else {
         banned = goodtogo;
       }
