@@ -10,7 +10,7 @@ $(document).ready(function () {
   }
 
   function readSgsWujiangSet() {
-    d3.csv("https://spreadsheets.google.com/tq?key=1_Wel_JJ-zD-mL8AKWb_P3dhJiQeERwdgwtTMVXMv2mI&tqx=out:csv", function (err, data) {
+    d3.csv("https://spreadsheets.google.com/tq?key=1_Wel_JJ-zD-mL8AKWb_P3dhJiQeERwdgwtTMVXMv2mI&tqx=out:csv&callback=googleDocCallback", function (err, data) {
       var bs = d3.csv.format(data).split("\n");
       for (var i = 0; i < bs.length; i++) {
         bs[i] = bs[i].replace(/\r?\n|\r/g, " ").trim();
@@ -36,7 +36,7 @@ $(document).ready(function () {
   }
 
   function readSgsWujiangMap() {
-    d3.csv("https://spreadsheets.google.com/tq?key=1oQ6G8YwcG1d53P8MBtsAmN2PI-MtzvVZYvcb8HBRHWs&tqx=out:csv", function (err, data) {
+    d3.csv("https://spreadsheets.google.com/tq?key=1oQ6G8YwcG1d53P8MBtsAmN2PI-MtzvVZYvcb8HBRHWs&tqx=out:csv&callback=googleDocCallback", function (err, data) {
       var bm = new Map();
       var rows = d3.csv.format(data).split("\n");
       for (var i = 0; i < rows.length; i++) {
@@ -61,6 +61,8 @@ $(document).ready(function () {
     }
     return res;
   }
+
+  window.googleDocCallback = function () { return true; };
 
   var substringMatcher = function (strs) {
     return function findMatches(q, cb) {
