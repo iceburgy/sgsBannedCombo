@@ -76,7 +76,7 @@ $(document).ready(function () {
   $(".typeahead").on('change keyup paste mouseup', arrowHandler);
 
   $("#btnClear").click(function () {
-    $(".typeahead").val("");
+    $('.typeahead').typeahead('val', '');
     $("#outputwrapper").text("");
     $("#skillswrapper").text("");
     $(".typeahead").focus();
