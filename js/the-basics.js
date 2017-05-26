@@ -1,5 +1,6 @@
 $(document).ready(function () {
   var goodtogo = "无禁将组合，请放心使用！";
+  var wujiangBaseSet = Object.keys(wujiangBaseMap);
 
   function isUpperCase(aCharacter) {
     return (aCharacter >= 'A') && (aCharacter <= 'Z');
@@ -59,6 +60,7 @@ $(document).ready(function () {
       } else {
         banned = goodtogo;
       }
+      $("#skillswrapper").text(wujiangBaseMap[key]);
     }
     $("#outputwrapper").text(banned);
     $("#btnClear").focus();
