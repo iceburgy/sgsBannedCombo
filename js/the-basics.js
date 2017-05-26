@@ -68,16 +68,18 @@ $(document).ready(function () {
 
   function arrowHandler() {
     var key = $(".typeahead").val();
-    var banned = "";
-    if ($.inArray(key, wujiangBaseSet) >= 0) {
-      if (wujiangBannedMap[key]) {
-        banned = wujiangBannedMap[key];
-      } else {
-        banned = goodtogo;
-      }
+    if(key){
+      var banned = "";
+      if ($.inArray(key, wujiangBaseSet) >= 0) {
+        if (wujiangBannedMap[key]) {
+          banned = wujiangBannedMap[key];
+        } else {
+          banned = goodtogo;
+        }
 
+      }
+      $("#outputwrapper").text(banned);
     }
-    $("#outputwrapper").text(banned);
   }
 
   $(".typeahead").on('change keyup paste mouseup', arrowHandler);
@@ -89,6 +91,24 @@ $(document).ready(function () {
   });
 
   $(".typeahead").focus();
+
+  // validate that all of the banned map entries can be found in the base set
+  function validate(){
+    var matches=[];
+    $.each(Object.keys(wujiangBannedMap), function (i, key) {
+      if ($.inArray(key, wujiangBaseSet) == -1) {
+        matches.push(key);
+      }
+    });
+    if(matches && matches.length>0){
+      var msg="keys missing base:"+JSON.stringify(matches);
+      $("#outputwrapper").text(msg);
+    }else{
+      $("#outputwrapper").text("Dataset is valid");
+    }
+  }
+
+  validate();
 
 });
 
