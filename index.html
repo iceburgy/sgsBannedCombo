@@ -14,17 +14,19 @@
     <meta charset="utf-8">
 
 </head>
-<body>
-    <div id="outputwrapper"></div>
+<body class="bodyclass">
     <div id="inputwrapper">
-        <input id="btnClear" type="button" value="清空"><input class="typeahead" type="text" placeholder="输入拼音或首字母查询">
+        <input id="query" class="typeahead" type="text" placeholder="输入拼音或首字母查询"><input id="btnClear" type="button" value="清空">
     </div>
+    <div id="outputwrapper"></div>
     <div id="skillswrapper"></div>
     <div id="footer">
-        <a class="footerItem" href="http://bit.ly/1pXtpvz" target="_blank">信息来源</a>
-        <a class="footerItem" href="https://github.com/iceburgy/sgsBannedCombo" target="_blank">Contribute</a>
-        <a class="footerItem" href="https://github.com/iceburgy/sgsBannedCombo/blob/master/js/wujiangBaseMap.js" target="_blank">完善所有武将</a>
-        <a class="footerItem" href="https://github.com/iceburgy/sgsBannedCombo/blob/master/js/wujiangBannedMap.js" target="_blank">完善禁将列表</a>
+        <div class="footerlinks">
+            <div><a class="footerItem" href="http://bit.ly/1pXtpvz" target="_blank">信息来源</a></div>
+            <a class="footerItem" href="https://github.com/iceburgy/sgsBannedCombo" target="_blank">Contribute</a>
+            <a class="footerItem" href="https://github.com/iceburgy/sgsBannedCombo/blob/master/js/wujiangBaseMap.js" target="_blank">完善所有武将</a>
+            <a class="footerItem" href="https://github.com/iceburgy/sgsBannedCombo/blob/master/js/wujiangBannedMap.js" target="_blank">完善禁将列表</a>
+        </div>
         <span class="footerItem">Credits: 西村三国杀高手群</span>
     </div>
 </body>
