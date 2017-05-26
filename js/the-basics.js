@@ -1,19 +1,19 @@
 $(document).ready(function () {
-  var goodtogo="无禁将组合，请放心使用！";
+  var goodtogo = "无禁将组合，请放心使用！";
   var bannedKeys = [];
   var bannedMap = new Map();
 
   readSgsWujiangSet();
   readSgsWujiangMap();
   function populateBannedSet(bs) {
-    bannedKeys=bs;
+    bannedKeys = bs;
   }
-  function readSgsWujiangSet()
-  {
-    $.ajax("https://spreadsheets.google.com/tq?key=1_Wel_JJ-zD-mL8AKWb_P3dhJiQeERwdgwtTMVXMv2mI&tqx=out:csv").done(function(result){
-      var bs=result.split("\n");
+
+  function readSgsWujiangSet() {
+    d3.csv("https://spreadsheets.google.com/tq?key=1_Wel_JJ-zD-mL8AKWb_P3dhJiQeERwdgwtTMVXMv2mI&tqx=out:csv", function (err, data) {
+      var bs = d3.csv.format(data).split("\n");
       for (var i = 0; i < bs.length; i++) {
-        bs[i]=bs[i].replace(/\r?\n|\r/g, " ").trim();
+        bs[i] = bs[i].replace(/\r?\n|\r/g, " ").trim();
       }
 
       populateBannedSet(bs);
@@ -32,14 +32,13 @@ $(document).ready(function () {
   }
 
   function populateBannedMap(bm) {
-    bannedMap=bm;
+    bannedMap = bm;
   }
 
-  function readSgsWujiangMap()
-  {
-    $.ajax("https://spreadsheets.google.com/tq?key=1oQ6G8YwcG1d53P8MBtsAmN2PI-MtzvVZYvcb8HBRHWs&tqx=out:csv").done(function(result){
-      var bm=new Map();
-      var rows = result.split("\n");
+  function readSgsWujiangMap() {
+    d3.csv("https://spreadsheets.google.com/tq?key=1oQ6G8YwcG1d53P8MBtsAmN2PI-MtzvVZYvcb8HBRHWs&tqx=out:csv", function (err, data) {
+      var bm = new Map();
+      var rows = d3.csv.format(data).split("\n");
       for (var i = 0; i < rows.length; i++) {
         var cells = rows[i].split(",");
         bm.set(cells[0].replace(/\r?\n|\r/g, " ").trim(), cells[1].replace(/\r?\n|\r/g, " ").trim());
@@ -49,21 +48,20 @@ $(document).ready(function () {
     });
   }
 
-  function isUpperCase(aCharacter)
-  {
+  function isUpperCase(aCharacter) {
     return (aCharacter >= 'A') && (aCharacter <= 'Z');
   }
-  function getInitials(input)
-  {
+
+  function getInitials(input) {
     var res = "";
     for (var i = 0, len = input.length; i < len; i++) {
-      if(isUpperCase(input[i]))
-      {
-        res = res+input[i];
+      if (isUpperCase(input[i])) {
+        res = res + input[i];
       }
     }
     return res;
   }
+
   var substringMatcher = function (strs) {
     return function findMatches(q, cb) {
       var matches, substringRegex;
@@ -77,7 +75,7 @@ $(document).ready(function () {
       // iterate through the pool of strings and for any string that
       // contains the substring `q`, add it to the `matches` array
       $.each(strs, function (i, str) {
-        var initials=getInitials(str);
+        var initials = getInitials(str);
         if (substrRegex.test(str) || substrRegex.test(initials)) {
           matches.push(str);
         }
@@ -100,6 +98,7 @@ $(document).ready(function () {
     $("#outputwrapper").text(banned);
     $("#btnClear").focus();
   }
+
   $('.typeahead').bind('typeahead:selected', selectHandler);
 
   function arrowHandler() {
@@ -115,9 +114,10 @@ $(document).ready(function () {
     }
     $("#outputwrapper").text(banned);
   }
+
   $(".typeahead").on('change keyup paste mouseup', arrowHandler);
 
-  $("#btnClear").click(function() {
+  $("#btnClear").click(function () {
     $(".typeahead").val("");
     $("#outputwrapper").text("");
     $(".typeahead").focus();
