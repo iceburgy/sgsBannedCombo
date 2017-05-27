@@ -37,11 +37,11 @@ $(document).ready(function () {
 
   function isFalsy(matches) {
     if(matches && matches.length>0){
-      $.each(matches, function (i, str) {
-        if (str) {
+      for(i=0;i<matches.length;i++){
+        if (matches[i]) {
           return true;
         }
-      });
+      }
     }
     return false;
   }
