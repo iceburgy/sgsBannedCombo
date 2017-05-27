@@ -27,7 +27,7 @@ $(document).ready(function () {
           }
         });
       }else{
-        matches=getLruCookie();
+        matches=getLruCookie(wujiangBaseSet);
       }
       if(isFalsy(matches)){
         cb(matches);
@@ -71,8 +71,7 @@ $(document).ready(function () {
         fontcolor="green";
       }
       $("#skillswrapper").text(wujiangBaseMap[key]);
-      // test
-      updateLruCookie("abb", dropdownSize);
+      updateLruCookie(key, dropdownSize);
     }
     $("#outputwrapper").text(banned);
     $("#outputwrapper").css({ 'color': fontcolor });

@@ -6,16 +6,18 @@ function putLruToCookie(item, lruString, maxSize) {
     lru = lruString.split(",");
   }
   var lrusize = lru.length;
-  var curIndex = $.inArray(item, lru);
+  var startIndex=item.indexOf("(")+1;
+  var endIndex=item.indexOf(")");
+  cookieItem=item.substring(startIndex, endIndex);
+  var curIndex = $.inArray(cookieItem, lru);
   if (curIndex == -1) {
-    // test if (lru.length >= maxSize) {
-    if (lru.length >= 3) {
+    if (lru.length >= maxSize) {
       lru.pop();
     }
   } else {
     lru.splice(curIndex, 1);
   }
-  lru.unshift(item);
+  lru.unshift(cookieItem);
   return lru.toString();
 }
 
@@ -48,7 +50,23 @@ function updateLruCookie(item, dropdownSize) {
   setCookie(lruCookieName, newLruCookieString, 7);
 }
 
-function getLruCookie() {
+function getLruCookie(baseSet) {
   var lruCookie = getCookie(lruCookieName);
-  return lruCookie.split(",");
+  var matches, substringRegex;
+  matches = [];
+  if(lruCookie){
+    var lruCookies = lruCookie.split(",");
+    for(k=0;k<lruCookies.length;k++){
+      substrRegex = new RegExp(lruCookies[k], 'i');
+
+      // iterate through the pool of strings and for any string that
+      // contains the substring `q`, add it to the `matches` array
+      $.each(baseSet, function (i, str) {
+        if (substrRegex.test(str)) {
+          matches.push(str);
+        }
+      });
+    }
+  }
+  return matches;
 }
