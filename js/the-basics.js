@@ -29,11 +29,22 @@ $(document).ready(function () {
       }else{
         matches=getLruCookie();
       }
-      if(matches && matches.length>0 && matches[0]){
+      if(isFalsy(matches)){
         cb(matches);
       }
     };
   };
+
+  function isFalsy(matches) {
+    if(matches && matches.length>0){
+      $.each(matches, function (i, str) {
+        if (str) {
+          return true;
+        }
+      });
+    }
+    return false;
+  }
 
   $('.typeahead').typeahead({
         hint: false,

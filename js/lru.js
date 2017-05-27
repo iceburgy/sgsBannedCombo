@@ -1,14 +1,18 @@
-var lruCookieName="sgsLru";
+var lruCookieName = "sgsLru";
+
 function putLruToCookie(item, lruString, maxSize) {
-  var lru = lruString.split(",");
-  var lrusize=lru.length;
-  var curIndex=$.inArray(item, lru);
+  var lru = [];
+  if (lruString) {
+    lru = lruString.split(",");
+  }
+  var lrusize = lru.length;
+  var curIndex = $.inArray(item, lru);
   if (curIndex == -1) {
     if (lru.length >= maxSize) {
       lru.pop();
     }
     lru.push(item);
-  }else{
+  } else {
     lru.splice(curIndex, 1);
     lru.unshift(item);
   }
@@ -19,7 +23,7 @@ function getCookie(cname) {
   var name = cname + "=";
   var decodedCookie = decodeURIComponent(document.cookie);
   var ca = decodedCookie.split(';');
-  for(var i = 0; i <ca.length; i++) {
+  for (var i = 0; i < ca.length; i++) {
     var c = ca[i];
     while (c.charAt(0) == ' ') {
       c = c.substring(1);
@@ -33,18 +37,18 @@ function getCookie(cname) {
 function setCookie(cname, cvalue, exdays) {
   var d = new Date();
   d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-  var expires = "expires="+d.toUTCString();
+  var expires = "expires=" + d.toUTCString();
   cookieValue = cname + "=" + cvalue + ";" + expires + ";path=/";
   document.cookie = cookieValue;
 }
 
-function updateLruCookie(item, dropdownSize){
+function updateLruCookie(item, dropdownSize) {
   var lruCookie = getCookie(lruCookieName);
   var newLruCookieString = putLruToCookie(item, lruCookie, dropdownSize);
   setCookie(lruCookieName, newLruCookieString, 7);
 }
 
-function getLruCookie(){
+function getLruCookie() {
   var lruCookie = getCookie(lruCookieName);
   return lruCookie.split(",");
 }
