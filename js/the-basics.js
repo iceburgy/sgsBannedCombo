@@ -1,5 +1,6 @@
 $(document).ready(function () {
   var goodtogo = "无禁将组合，请放心使用！";
+  var bannedPrefix = "该武将与下列武将禁用：";
   var wujiangBaseSet = Object.keys(wujiangBaseMap);
 
   var substringMatcher = function (strs) {
@@ -45,7 +46,7 @@ $(document).ready(function () {
     var banned = "";
     if ($.inArray(key, wujiangBaseSet) >= 0) {
       if (wujiangBannedMap[key]) {
-        banned = wujiangBannedMap[key];
+        banned = bannedPrefix + wujiangBannedMap[key];
       } else {
         banned = goodtogo;
       }
@@ -63,7 +64,7 @@ $(document).ready(function () {
       var banned = "";
       if ($.inArray(key, wujiangBaseSet) >= 0) {
         if (wujiangBannedMap[key]) {
-          banned = wujiangBannedMap[key];
+          banned = bannedPrefix + wujiangBannedMap[key];
         } else {
           banned = goodtogo;
         }
