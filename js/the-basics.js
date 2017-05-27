@@ -1,6 +1,6 @@
 $(document).ready(function () {
   var goodtogo = "无禁将组合，请放心使用！";
-  var bannedPrefix = "该武将与下列武将禁用：";
+  var bannedPrefix = "禁将表：";
   var wujiangBaseSet = Object.keys(wujiangBaseMap);
 
   var substringMatcher = function (strs) {
@@ -44,33 +44,41 @@ $(document).ready(function () {
   function selectHandler(obj, datum, name) {
     var key = datum.replace(/\r?\n|\r/g, " ").trim();
     var banned = "";
+    var fontcolor="black";
     if ($.inArray(key, wujiangBaseSet) >= 0) {
       if (wujiangBannedMap[key]) {
         banned = bannedPrefix + wujiangBannedMap[key];
+        fontcolor="red";
       } else {
         banned = goodtogo;
+        fontcolor="green";
       }
       $("#skillswrapper").text(wujiangBaseMap[key]);
     }
     $("#outputwrapper").text(banned);
+    $("#outputwrapper").css({ 'color': fontcolor });
     $("#btnClear").focus();
   }
 
   $('.typeahead').bind('typeahead:selected', selectHandler);
 
   function arrowHandler() {
+    var fontcolor="black";
     var key = $(".typeahead").val();
     if(key){
       var banned = "";
       if ($.inArray(key, wujiangBaseSet) >= 0) {
         if (wujiangBannedMap[key]) {
           banned = bannedPrefix + wujiangBannedMap[key];
+          fontcolor="red";
         } else {
           banned = goodtogo;
+          fontcolor="green";
         }
         $("#skillswrapper").text(wujiangBaseMap[key]);
       }
       $("#outputwrapper").text(banned);
+      $("#outputwrapper").css({ 'color': fontcolor });
     }
   }
 
