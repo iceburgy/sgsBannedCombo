@@ -2,6 +2,7 @@ $(document).ready(function () {
   var goodtogo = "无禁将组合，请放心使用！";
   var bannedPrefix = "禁将表：";
   var wujiangBaseSet = Object.keys(wujiangBaseMap);
+  var dropdownSize=15;
 
   var substringMatcher = function (strs) {
     return function findMatches(q, cb) {
@@ -10,34 +11,39 @@ $(document).ready(function () {
       // an array that will be populated with substring matches
       matches = [];
 
-      // regex used to determine if a string contains the substring `q`
-      var newQ=".*";
-      for(k=0;k< q.length;k++){
-        newQ+=q[k]+".*";
-      }
-      substrRegex = new RegExp(newQ, 'i');
-
-      // iterate through the pool of strings and for any string that
-      // contains the substring `q`, add it to the `matches` array
-      $.each(strs, function (i, str) {
-        if (substrRegex.test(str)) {
-          matches.push(str);
+      if(q.length>0){
+        // regex used to determine if a string contains the substring `q`
+        var newQ=".*";
+        for(k=0;k< q.length;k++){
+          newQ+=q[k]+".*";
         }
-      });
+        substrRegex = new RegExp(newQ, 'i');
 
-      cb(matches);
+        // iterate through the pool of strings and for any string that
+        // contains the substring `q`, add it to the `matches` array
+        $.each(strs, function (i, str) {
+          if (substrRegex.test(str)) {
+            matches.push(str);
+          }
+        });
+      }else{
+        matches=getLruCookie();
+      }
+      if(matches && matches.length>0 && matches[0]){
+        cb(matches);
+      }
     };
   };
 
   $('.typeahead').typeahead({
         hint: false,
         highlight: true,
-        minLength: 1
+        minLength: 0
       },
       {
         name: 'bannedKeys',
         source: substringMatcher(wujiangBaseSet),
-        limit: 20
+        limit: dropdownSize
       }
   );
 
@@ -54,6 +60,7 @@ $(document).ready(function () {
         fontcolor="green";
       }
       $("#skillswrapper").text(wujiangBaseMap[key]);
+      updateLruCookie(key, dropdownSize);
     }
     $("#outputwrapper").text(banned);
     $("#outputwrapper").css({ 'color': fontcolor });
@@ -82,7 +89,7 @@ $(document).ready(function () {
     }
   }
 
-  $(".typeahead").on('change keyup paste mouseup', arrowHandler);
+  $(".typeahead").on('typeahead:change keyup paste mouseup touchend', arrowHandler);
 
   $("#btnClear").click(function () {
     $('.typeahead').typeahead('val', '');
