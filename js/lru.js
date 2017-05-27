@@ -8,14 +8,14 @@ function putLruToCookie(item, lruString, maxSize) {
   var lrusize = lru.length;
   var curIndex = $.inArray(item, lru);
   if (curIndex == -1) {
+    // test if (lru.length >= maxSize) {
     if (lru.length >= 3) {
       lru.pop();
     }
-    lru.push(item);
   } else {
     lru.splice(curIndex, 1);
-    lru.unshift(item);
   }
+  lru.unshift(item);
   return lru.toString();
 }
 
