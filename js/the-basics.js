@@ -27,7 +27,8 @@ $(document).ready(function () {
           }
         });
       }else{
-        matches=getLruCookie();
+        //matches=getLruCookie();
+        matches=["士燮(ShiXie)"];
       }
       if(isFalsy(matches)){
         cb(matches);
@@ -71,7 +72,7 @@ $(document).ready(function () {
         fontcolor="green";
       }
       $("#skillswrapper").text(wujiangBaseMap[key]);
-      updateLruCookie(key, dropdownSize);
+      //updateLruCookie(key, dropdownSize);
     }
     $("#outputwrapper").text(banned);
     $("#outputwrapper").css({ 'color': fontcolor });
