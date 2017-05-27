@@ -71,7 +71,8 @@ $(document).ready(function () {
         fontcolor="green";
       }
       $("#skillswrapper").text(wujiangBaseMap[key]);
-      updateLruCookie(key, dropdownSize);
+      // test
+      updateLruCookie("abb", dropdownSize);
     }
     $("#outputwrapper").text(banned);
     $("#outputwrapper").css({ 'color': fontcolor });
