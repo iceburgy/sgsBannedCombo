@@ -6,8 +6,8 @@ function putLruToCookie(item, lruString, maxSize) {
     lru = lruString.split(",");
   }
   var lrusize = lru.length;
-  var startIndex=item.indexOf("(")+1;
-  var endIndex=item.indexOf(")");
+  var startIndex=item.indexOf("(");
+  var endIndex=item.indexOf(")")+1;
   cookieItem=item.substring(startIndex, endIndex);
   var curIndex = $.inArray(cookieItem, lru);
   if (curIndex == -1) {
