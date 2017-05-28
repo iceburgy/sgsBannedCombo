@@ -1,10 +1,11 @@
 body.bodyclass{
-    /*position: absolute;*/
-    /*left: 50%;*/
-    /*transform: translate(-50%);*/
-    /*width: 50em;*/
     padding: 1em;
     text-align: center
+}
+
+.mainWrapper{
+    height: 90%;
+    overflow: scroll;
 }
 
 div#inputwrapper {
@@ -25,10 +26,10 @@ div#skillswrapper {
 
 div#footer {
     position: absolute;
-    bottom: 2em;
-    font-size: 0.8em;
+    bottom: 1em;
     left: 50%;
     transform: translate(-50%);
+    font-size: 0.8em;
 }
 
 div.footerlinks{
@@ -46,7 +47,10 @@ input#query {
     vertical-align: baseline !important;
 }
 
-@media (max-width: 600px) {
+@media (max-height: 550px) {
+    .mainWrapper{
+        height: 80%;
+    }
 }
 
 .tt-query, /* UPDATE: newer versions use tt-input instead of tt-query */

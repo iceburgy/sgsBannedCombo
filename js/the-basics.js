@@ -118,8 +118,6 @@ $(document).ready(function () {
     $(".typeahead").focus();
   });
 
-  $(".typeahead").focus();
-
   // validate that all of the banned map entries can be found in the base set
   function validate(){
     var matches=[];
