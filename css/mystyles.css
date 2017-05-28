@@ -5,7 +5,7 @@ body.bodyclass{
 
 .mainWrapper{
     height: 90%;
-    overflow: scroll;
+    overflow: auto;
 }
 
 div#inputwrapper {

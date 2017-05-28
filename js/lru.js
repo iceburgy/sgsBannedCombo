@@ -57,12 +57,8 @@ function getLruCookie(baseSet) {
   if(lruCookie){
     var lruCookies = lruCookie.split(",");
     for(k=0;k<lruCookies.length;k++){
-      substrRegex = new RegExp(lruCookies[k], 'i');
-
-      // iterate through the pool of strings and for any string that
-      // contains the substring `q`, add it to the `matches` array
       $.each(baseSet, function (i, str) {
-        if (substrRegex.test(str)) {
+        if (str.endsWith(lruCookies[k])) {
           matches.push(str);
         }
       });
