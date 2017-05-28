@@ -19,6 +19,9 @@ div#outputwrapper {
 div#skillswrapper {
     margin-top: 2em;
 }
+.skillItem {
+    text-align: left;
+}
 
 div#footer {
     position: absolute;

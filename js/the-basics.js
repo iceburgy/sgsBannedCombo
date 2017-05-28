@@ -70,7 +70,7 @@ $(document).ready(function () {
         banned = goodtogo;
         fontcolor="green";
       }
-      $("#skillswrapper").text(wujiangBaseMap[key]);
+      $("#skillswrapper").html(renderSkills(wujiangBaseMap[key]));
       updateLruCookie(key, dropdownSize);
     }
     $("#outputwrapper").text(banned);
@@ -93,11 +93,20 @@ $(document).ready(function () {
           banned = goodtogo;
           fontcolor="green";
         }
-        $("#skillswrapper").text(wujiangBaseMap[key]);
+        $("#skillswrapper").html(renderSkills(wujiangBaseMap[key]));
       }
       $("#outputwrapper").text(banned);
       $("#outputwrapper").css({ 'color': fontcolor });
     }
+  }
+  function renderSkills(skills) {
+    //var list = '<ul><li>' + skills.join('</a></li><li>') + '</li></ul>';
+    var $ul = $('<ul>')
+        .append(skills.map(function(skill) {
+          return $("<li>").addClass('skillItem').text(skill);
+        })
+    );
+    return $ul;
   }
 
   $(".typeahead").on('typeahead:change keyup paste mouseup touchend', arrowHandler);
@@ -123,15 +132,15 @@ $(document).ready(function () {
     var msg="";
     var cookieEnabled = navigator.cookieEnabled;
     if(!cookieEnabled){
-      msg+="Enable browser cookie for search history hint.";
+      msg+="Cookie is currently disabled. <br/>Enable browser cookie for search history hint.";
     }
     if(matches && matches.length>0){
-      msg+=" keys missing base:"+JSON.stringify(matches);
+      msg+="<br/>keys missing base:"+JSON.stringify(matches);
     }
     if(!msg){
       msg="Data valid";
     }
-    $("#outputwrapper").text(msg);
+    $("#outputwrapper").html(msg);
   }
 
   validate();
