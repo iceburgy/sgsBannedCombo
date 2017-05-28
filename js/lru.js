@@ -52,7 +52,7 @@ function updateLruCookie(item, dropdownSize) {
 
 function getLruCookie(baseSet) {
   var lruCookie = getCookie(lruCookieName);
-  var matches, substringRegex;
+  var matches;
   matches = [];
   if(lruCookie){
     var lruCookies = lruCookie.split(",");

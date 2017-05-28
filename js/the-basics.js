@@ -17,6 +17,7 @@ $(document).ready(function () {
         for(k=0;k< q.length;k++){
           newQ+=q[k]+".*";
         }
+        newQ=newQ.replace("\(","\\\(").replace("\)","\\\)");
         substrRegex = new RegExp(newQ, 'i');
 
         // iterate through the pool of strings and for any string that
@@ -60,6 +61,7 @@ $(document).ready(function () {
 
   function selectHandler(obj, datum, name) {
     var key = datum.replace(/\r?\n|\r/g, " ").trim();
+    var skills = "";
     var banned = "";
     var fontcolor="black";
     if ($.inArray(key, wujiangBaseSet) >= 0) {
@@ -70,9 +72,10 @@ $(document).ready(function () {
         banned = goodtogo;
         fontcolor="green";
       }
-      $("#skillswrapper").html(renderSkills(wujiangBaseMap[key]));
+      skills=renderSkills(wujiangBaseMap[key]);
       updateLruCookie(key, dropdownSize);
     }
+    $("#skillswrapper").html(skills);
     $("#outputwrapper").text(banned);
     $("#outputwrapper").css({ 'color': fontcolor });
     $("#btnClear").focus();
@@ -84,6 +87,7 @@ $(document).ready(function () {
     var fontcolor="black";
     var key = $(".typeahead").val();
     if(key){
+      var skills = "";
       var banned = "";
       if ($.inArray(key, wujiangBaseSet) >= 0) {
         if (wujiangBannedMap[key]) {
@@ -93,8 +97,9 @@ $(document).ready(function () {
           banned = goodtogo;
           fontcolor="green";
         }
-        $("#skillswrapper").html(renderSkills(wujiangBaseMap[key]));
+        skills=renderSkills(wujiangBaseMap[key]);
       }
+      $("#skillswrapper").html(skills);
       $("#outputwrapper").text(banned);
       $("#outputwrapper").css({ 'color': fontcolor });
     }
