@@ -119,12 +119,19 @@ $(document).ready(function () {
         matches.push(key);
       }
     });
-    if(matches && matches.length>0){
-      var msg="keys missing base:"+JSON.stringify(matches);
-      $("#outputwrapper").text(msg);
-    }else{
-      $("#outputwrapper").text("Enable browser cookie for search history hint");
+
+    var msg="";
+    var cookieEnabled = navigator.cookieEnabled;
+    if(!cookieEnabled){
+      msg+="Enable browser cookie for search history hint.";
     }
+    if(matches && matches.length>0){
+      msg+=" keys missing base:"+JSON.stringify(matches);
+    }
+    if(!msg){
+      msg="Data valid";
+    }
+    $("#outputwrapper").text(msg);
   }
 
   validate();
