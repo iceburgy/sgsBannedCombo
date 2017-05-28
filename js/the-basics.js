@@ -123,7 +123,7 @@ $(document).ready(function () {
       var msg="keys missing base:"+JSON.stringify(matches);
       $("#outputwrapper").text(msg);
     }else{
-      $("#outputwrapper").text("Dataset is good. Enable browser cookie for search history hint. Cookie: " + document.cookie);
+      $("#outputwrapper").text("Enable browser cookie for search history hint");
     }
   }
 
