@@ -1,70 +1,62 @@
 $(document).ready(function () {
   var goodtogo = "无禁将组合，请放心使用！";
   var bannedPrefix = "禁将表：";
-  var wujiangBaseMap={"a":"b"};
-  var wujiangBaseSet=[""];
-  var wujiangBannedMap={"a":"b"};
+  var wujiangBaseMap={};
+  var wujiangBaseSet=[];
+  var wujiangBannedMap={};
   var dropdownSize=15;
 
-
-
-  readSgsWujiangBaseMap();
-  readSgsWujiangBannedMap();
-  function populateBase(bs) {
-    wujiangBaseMap=bs;
-    wujiangBaseSet = Object.keys(wujiangBaseMap);
-    for(i=0;i< wujiangBaseSet.length;i++){
-      wujiangBaseSet[i]=wujiangBaseSet[i].replace(/\r?\n|\r/g, " ").trim();
-    }
+  function populateBase(baseMap, baseSet) {
+    wujiangBaseMap=baseMap;
+    wujiangBaseSet = baseSet;
   }
   function readSgsWujiangBaseMap()
   {
     $.ajax({
       url: "https://api.dropboxapi.com/2/paper/docs/download",
+      async: false,
       type: "POST",
       headers: {"Authorization": "Bearer wzahoqHWjoQAAAAAAAAAFV2iwzrw_BFSgaena__5iraqztOyTepnnUc5J1S-73FM",
         "Dropbox-API-Arg": "{\"doc_id\": \"UQrFsr20jVBKgsJPDBoBj\",\"export_format\": \"markdown\"}"},
       success: function(result) {
-        var raw=result.split('\n');
-        raw.splice(0, 1);
-        raw=JSON.parse(raw.join(' '));
-        var bs=Object.keys(raw);
-        for (var i = 0; i < bs.length; i++) {
-          bs[i]=bs[i].replace(/\r?\n|\r/g, " ").trim();
-        }
+        var baseMap=result.split('\n');
+        baseMap.splice(0, 1);
+        baseMap=JSON.parse(baseMap.join(' '));
+        var baseSet=Object.keys(baseMap);
+        populateBase(baseMap, baseSet);
 
-        populateBase(raw);
         $('.typeahead').typeahead({
               hint: false,
               highlight: true,
-              minLength: 1
+              minLength: 0
             },
             {
               name: 'bannedKeys',
-              source: substringMatcher(bs),
-              limit: 20
+              source: substringMatcher(baseSet),
+              limit: dropdownSize
             }
         );
       }
     });
   }
 
-  function populateBannedMap(bm) {
-    wujiangBannedMap=bm;
+  function populateBannedMap(bannedMap) {
+    wujiangBannedMap=bannedMap;
   }
 
   function readSgsWujiangBannedMap()
   {
     $.ajax({
       url: "https://api.dropboxapi.com/2/paper/docs/download",
+      async: false,
       type: "POST",
       headers: {"Authorization": "Bearer wzahoqHWjoQAAAAAAAAAFV2iwzrw_BFSgaena__5iraqztOyTepnnUc5J1S-73FM",
         "Dropbox-API-Arg": "{\"doc_id\": \"gO8sAY4eYAlF2OQ6QPk5T\",\"export_format\": \"markdown\"}"},
       success: function(result) {
-        var raw=result.split('\n');
-        raw.splice(0, 1);
-        raw=JSON.parse(raw.join(' '));
-        populateBannedMap(raw);
+        var bannedMap=result.split('\n');
+        bannedMap.splice(0, 1);
+        bannedMap=JSON.parse(bannedMap.join(' '));
+        populateBannedMap(bannedMap);
       }
     });
   }
@@ -95,13 +87,13 @@ $(document).ready(function () {
       }else{
         matches=getLruCookie(wujiangBaseSet);
       }
-      if(isFalsy(matches)){
+      if(isTruthy(matches)){
         cb(matches);
       }
     };
   };
 
-  function isFalsy(matches) {
+  function isTruthy(matches) {
     if(matches && matches.length>0){
       for(i=0;i<matches.length;i++){
         if (matches[i]) {
@@ -111,18 +103,6 @@ $(document).ready(function () {
     }
     return false;
   }
-
-  $('.typeahead').typeahead({
-        hint: false,
-        highlight: true,
-        minLength: 0
-      },
-      {
-        name: 'bannedKeys',
-        source: substringMatcher(wujiangBaseSet),
-        limit: dropdownSize
-      }
-  );
 
   function selectHandler(obj, datum, name) {
     var key = datum.replace(/\r?\n|\r/g, " ").trim();
@@ -145,8 +125,6 @@ $(document).ready(function () {
     $("#outputwrapper").css({ 'color': fontcolor });
     $("#btnClear").focus();
   }
-
-  $('.typeahead').bind('typeahead:selected', selectHandler);
 
   function arrowHandler() {
     var fontcolor="black";
@@ -179,15 +157,6 @@ $(document).ready(function () {
     return $ul;
   }
 
-  $(".typeahead").on('typeahead:change keyup paste mouseup touchend', arrowHandler);
-
-  $("#btnClear").click(function () {
-    $('.typeahead').typeahead('val', '');
-    $("#outputwrapper").text("");
-    $("#skillswrapper").text("");
-    $(".typeahead").focus();
-  });
-
   // validate that all of the banned map entries can be found in the base set
   function validate(){
     var matches=[];
@@ -210,6 +179,19 @@ $(document).ready(function () {
     }
     $("#outputwrapper").html(msg);
   }
+
+  readSgsWujiangBaseMap();
+  readSgsWujiangBannedMap();
+  $('.typeahead').bind('typeahead:selected', selectHandler);
+
+  $(".typeahead").on('typeahead:change keyup paste mouseup touchend', arrowHandler);
+
+  $("#btnClear").click(function () {
+    $('.typeahead').typeahead('val', '');
+    $("#outputwrapper").text("");
+    $("#skillswrapper").text("");
+    $(".typeahead").focus();
+  });
 
   validate();
 

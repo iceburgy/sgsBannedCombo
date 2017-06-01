@@ -7,8 +7,8 @@ http://bit.ly/1pXtpvz
 - Element centered
 - Increase hint size
 - Support search by initials (first letter only in multi-char last name)
-- Importing wujiang list from google sheets (shared for co-edit, must follow the same format)
+- Importing wujiang list from Dropbox paper (shared for co-edit, must follow the same format)
     - Wujiang base pool:
-        https://docs.google.com/spreadsheets/d/1_Wel_JJ-zD-mL8AKWb_P3dhJiQeERwdgwtTMVXMv2mI/edit?usp=sharing
-    - Wujiang banning map:
-        https://docs.google.com/spreadsheets/d/1oQ6G8YwcG1d53P8MBtsAmN2PI-MtzvVZYvcb8HBRHWs/edit?usp=sharing
+        https://paper.dropbox.com/doc/wujiangBaseMap-UQrFsr20jVBKgsJPDBoBj
+    - Wujiang banning map: 
+        https://paper.dropbox.com/doc/wujiangBannedMap-gO8sAY4eYAlF2OQ6QPk5T
