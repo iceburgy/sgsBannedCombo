@@ -1,8 +1,73 @@
 $(document).ready(function () {
   var goodtogo = "无禁将组合，请放心使用！";
   var bannedPrefix = "禁将表：";
-  var wujiangBaseSet = Object.keys(wujiangBaseMap);
+  var wujiangBaseMap={"a":"b"};
+  var wujiangBaseSet=[""];
+  var wujiangBannedMap={"a":"b"};
   var dropdownSize=15;
+
+
+
+  readSgsWujiangBaseMap();
+  readSgsWujiangBannedMap();
+  function populateBase(bs) {
+    wujiangBaseMap=bs;
+    wujiangBaseSet = Object.keys(wujiangBaseMap);
+    for(i=0;i< wujiangBaseSet.length;i++){
+      wujiangBaseSet[i]=wujiangBaseSet[i].replace(/\r?\n|\r/g, " ").trim();
+    }
+  }
+  function readSgsWujiangBaseMap()
+  {
+    $.ajax({
+      url: "https://api.dropboxapi.com/2/paper/docs/download",
+      type: "POST",
+      headers: {"Authorization": "Bearer wzahoqHWjoQAAAAAAAAAFV2iwzrw_BFSgaena__5iraqztOyTepnnUc5J1S-73FM",
+        "Dropbox-API-Arg": "{\"doc_id\": \"UQrFsr20jVBKgsJPDBoBj\",\"export_format\": \"markdown\"}"},
+      success: function(result) {
+        var raw=result.split('\n');
+        raw.splice(0, 1);
+        raw=JSON.parse(raw.join(' '));
+        var bs=Object.keys(raw);
+        for (var i = 0; i < bs.length; i++) {
+          bs[i]=bs[i].replace(/\r?\n|\r/g, " ").trim();
+        }
+
+        populateBase(raw);
+        $('.typeahead').typeahead({
+              hint: false,
+              highlight: true,
+              minLength: 1
+            },
+            {
+              name: 'bannedKeys',
+              source: substringMatcher(bs),
+              limit: 20
+            }
+        );
+      }
+    });
+  }
+
+  function populateBannedMap(bm) {
+    wujiangBannedMap=bm;
+  }
+
+  function readSgsWujiangBannedMap()
+  {
+    $.ajax({
+      url: "https://api.dropboxapi.com/2/paper/docs/download",
+      type: "POST",
+      headers: {"Authorization": "Bearer wzahoqHWjoQAAAAAAAAAFV2iwzrw_BFSgaena__5iraqztOyTepnnUc5J1S-73FM",
+        "Dropbox-API-Arg": "{\"doc_id\": \"gO8sAY4eYAlF2OQ6QPk5T\",\"export_format\": \"markdown\"}"},
+      success: function(result) {
+        var raw=result.split('\n');
+        raw.splice(0, 1);
+        raw=JSON.parse(raw.join(' '));
+        populateBannedMap(raw);
+      }
+    });
+  }
 
   var substringMatcher = function (strs) {
     return function findMatches(q, cb) {
