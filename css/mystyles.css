@@ -12,6 +12,10 @@ a.w3-bar-item{
     display: inline !important;
 }
 
+a.w3-dark-grey{
+    color: white;
+}
+
 .w3-container{
     height: 87%;
     overflow: auto;
