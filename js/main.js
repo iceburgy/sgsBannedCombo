@@ -23,7 +23,12 @@ $(document).ready(function () {
         baseMap.splice(0, 1);
         baseMap=JSON.parse(baseMap.join(' '));
         var baseSet=Object.keys(baseMap);
+
         populateBase(baseMap, baseSet);
+
+        $.each(baseSet, function (i, name) {
+          $("#wujiang").append(renderWujiang(name, baseMap[name]));
+        });
 
         $('.typeahead').typeahead({
               hint: false,
@@ -83,11 +88,9 @@ $(document).ready(function () {
     return function findMatches(q, cb) {
       var matches, substringRegex;
 
-      // an array that will be populated with substring matches
       matches = [];
 
       if(q.length>0){
-        // regex used to determine if a string contains the substring `q`
         var newQ=".*";
         for(k=0;k< q.length;k++){
           newQ+=q[k]+".*";
@@ -95,8 +98,6 @@ $(document).ready(function () {
         newQ=newQ.replace("\(","\\\(").replace("\)","\\\)");
         substrRegex = new RegExp(newQ, 'i');
 
-        // iterate through the pool of strings and for any string that
-        // contains the substring `q`, add it to the `matches` array
         $.each(strs, function (i, str) {
           if (substrRegex.test(str)) {
             matches.push(str);
@@ -172,6 +173,13 @@ $(document).ready(function () {
           return $("<li>").addClass('skillItem').text(skill);
         })
     );
+    return $ul;
+  }
+  function renderWujiang(name, skills) {
+    var skillsHtml = renderSkills(skills);
+    var $ul = $('<ul>')
+        .append(name)
+        .append(skillsHtml);
     return $ul;
   }
 

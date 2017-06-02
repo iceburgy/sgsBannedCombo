@@ -24,7 +24,7 @@ div#skillswrapper {
     text-align: left;
 }
 
-div#gameRules{
+div.secondaryTab{
     display: none;
     text-align: left;
 }
