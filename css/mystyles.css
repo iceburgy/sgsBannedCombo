@@ -3,8 +3,22 @@ body.bodyclass{
     text-align: center
 }
 
-.mainWrapper{
-    height: 90%;
+a {
+    color: -webkit-link !important;
+}
+
+.w3-bar{
+    margin-bottom: 0.5em;
+}
+
+a.w3-bar-item{
+    color: inherit !important;
+    float: none !important;
+    display: inline !important;
+}
+
+.w3-container{
+    height: 87%;
     overflow: auto;
 }
 
@@ -54,7 +68,7 @@ input#query {
 }
 
 @media (max-height: 550px) {
-    .mainWrapper{
+    .w3-container{
         height: 80%;
     }
 }

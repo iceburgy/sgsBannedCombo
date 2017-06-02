@@ -177,7 +177,7 @@ $(document).ready(function () {
   }
   function renderWujiang(name, skills) {
     var skillsHtml = renderSkills(skills);
-    var $ul = $('<ul>')
+    var $ul = $('<div>')
         .append(name)
         .append(skillsHtml);
     return $ul;
@@ -206,19 +206,18 @@ $(document).ready(function () {
     $("#outputwrapper").html(msg);
   }
 
-  $(".tablinks").click(function (data) {
-
-     $.each($(".mainWrapper"), function (i, element) {
+  $(".w3-bar-item").click(function (data) {
+     $.each($(".w3-container"), function (i, element) {
        $(element).hide();
      });
-     $.each($(".tablinks"), function (i, element) {
-       $(element).removeClass("active");
+     $.each($(".w3-bar-item"), function (i, element) {
+       $(element).removeClass("w3-dark-grey");
      });
 
      // Show the current tab, and add an "active" class to the button that opened the tab
      var contentId=data.target.id.split("_")[1];
      $("#"+contentId).show();
-     $(data.target).addClass("active");
+     $(data.target).addClass("w3-dark-grey");
   });
 
   readSgsGameRules();
