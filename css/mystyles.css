@@ -3,16 +3,11 @@ body.bodyclass{
     text-align: center
 }
 
-a {
-    color: -webkit-link !important;
-}
-
 .w3-bar{
     margin-bottom: 0.5em;
 }
 
 a.w3-bar-item{
-    color: inherit !important;
     float: none !important;
     display: inline !important;
 }
@@ -54,6 +49,9 @@ div#footer {
     left: 50%;
     transform: translate(-50%);
     font-size: 0.8em;
+}
+a.normalLink {
+    color: -webkit-link !important;
 }
 
 .footerItem {
