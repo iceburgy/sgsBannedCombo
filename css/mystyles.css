@@ -17,7 +17,7 @@ a.w3-dark-grey{
 }
 
 .w3-container{
-    height: 87%;
+    height: 85%;
     overflow: auto;
 }
 
@@ -69,9 +69,34 @@ input#query {
     vertical-align: baseline !important;
 }
 
+@media (max-height: 700px) {
+    .w3-container{
+        height: 83%;
+    }
+}
+@media (max-height: 650px) {
+    .w3-container{
+        height: 82%;
+    }
+}
+@media (max-height: 600px) {
+    .w3-container{
+        height: 81%;
+    }
+}
 @media (max-height: 550px) {
     .w3-container{
         height: 80%;
+    }
+}
+@media (max-height: 500px) {
+    .w3-container{
+        height: 75%;
+    }
+}
+@media (max-height: 400px) {
+    div#footer{
+        display: none;
     }
 }
 
