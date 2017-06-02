@@ -8,28 +8,34 @@
     <script src="js/lru.js"></script>
     <script src="js/bloodhound.js"></script>
     <script src="js/typeahead.jquery.js"></script>
-    <script src="js/the-basics.js"></script>
+    <script src="js/main.js"></script>
 
     <meta charset="utf-8">
 
 </head>
 <body class="bodyclass">
-    <div class="mainWrapper">
-    <div id="inputwrapper">
-        <input id="query" class="typeahead" type="text" placeholder="拼音,首字母,子字符序列查询"><input id="btnClear" type="button" value="清空">
-    </div>
+    <div id="jinJiangBiao" class="mainWrapper">
+        <div id="inputwrapper">
+            <input id="query" class="typeahead" type="text" placeholder="拼音,首字母,子字符序列查询"><input id="btnClear" type="button" value="清空">
+        </div>
 
-    <div id="skillswrapper"></div>
-    <div id="outputwrapper"></div>
+        <div id="skillswrapper"></div>
+        <div id="outputwrapper"></div>
+    </div>
+    <div id="gameRules" class="mainWrapper">aaa
     </div>
     <div id="footer">
-        <div class="footerlinks">
-            <div><a class="footerItem" href="http://bit.ly/1pXtpvz" target="_blank">信息来源</a></div>
-            <a class="footerItem" href="https://github.com/iceburgy/sgsBannedCombo" target="_blank">Contribute</a>
-            <a class="footerItem" href="https://paper.dropbox.com/doc/wujiangBaseMap-UQrFsr20jVBKgsJPDBoBj" target="_blank">完善所有武将</a>
-            <a class="footerItem" href="https://paper.dropbox.com/doc/wujiangBannedMap-gO8sAY4eYAlF2OQ6QPk5T" target="_blank">完善禁将列表</a>
+        <div>
+            <a href="javascript:void(0)" id="a_jinJiangBiao" class="tablinks active">禁将表</a>
+            <a href="javascript:void(0)" id="a_gameRules" class="tablinks footerItem">游戏规则</a>
         </div>
-        <span class="footerItem">Credits: 西村[SGS高手群]</span>
+        <div>
+            <a href="https://github.com/iceburgy/sgsBannedCombo" target="_blank">Contribute</a>
+            <a href="https://paper.dropbox.com/doc/wujiangBaseMap-UQrFsr20jVBKgsJPDBoBj" target="_blank" class="footerItem">编辑武将</a>
+            <a href="https://paper.dropbox.com/doc/wujiangBannedMap-gO8sAY4eYAlF2OQ6QPk5T" target="_blank" class="footerItem">编辑禁将表</a>
+            <a href="https://paper.dropbox.com/doc/gameRules-8vMPGb0J3phwyY8zQjJmP" target="_blank" class="footerItem">编辑游戏规则</a>
+        </div>
+        <div>Credits: <a href="http://bit.ly/1pXtpvz" target="_blank">[SGS高手群]基本村规</a></div>
     </div>
 </body>
 </html>

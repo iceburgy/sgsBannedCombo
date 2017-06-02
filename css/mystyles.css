@@ -24,7 +24,17 @@ div#skillswrapper {
     text-align: left;
 }
 
+div#gameRules{
+    display: none;
+    text-align: left;
+}
+
+a.active{
+    font-weight: bold;
+}
+
 div#footer {
+    white-space: nowrap;
     position: absolute;
     bottom: 1em;
     left: 50%;
@@ -32,12 +42,8 @@ div#footer {
     font-size: 0.8em;
 }
 
-div.footerlinks{
-    white-space: nowrap;
-}
-
 .footerItem {
-    padding-left: 1em;
+    padding-left: 0.5em;
 }
 
 input#query {
