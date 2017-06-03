@@ -5,6 +5,10 @@ $(document).ready(function () {
   var wujiangBaseSet=[];
   var wujiangBannedMap={};
   var dropdownSize=15;
+  var wujiangPageSize=40;
+  var paginationBar="";
+  var PAGE="page";
+  var BUTTON="button";
 
   function populateBase(baseMap, baseSet) {
     wujiangBaseMap=baseMap;
@@ -26,9 +30,45 @@ $(document).ready(function () {
 
         populateBase(baseMap, baseSet);
 
+        var container=$("<div>").addClass("activePage")
+            .attr({
+              id: PAGE+"1"});
         $.each(baseSet, function (i, name) {
-          $("#wujiang").append(renderWujiang(name, baseMap[name]));
+          container.append(renderWujiang(name, baseMap[name]));
+          if((i+1)%wujiangPageSize==0 || i+1==baseSet.length){
+            $("#wujiang").append(container);
+            container=$("<div>").addClass("visuallyHidden")
+                .attr({
+                  id: PAGE+(Math.floor((i+1)/wujiangPageSize)+1)});
+          }
         });
+        paginationBar=$("<div>").addClass("w3-bar w3-border w3-round w3-center");
+        paginationBar.append($("<a>")
+            .attr({
+              href: "javascript:void(0)",
+              id: BUTTON+"Prev"})
+            .addClass("w3-bar-item w3-button pageButton")
+            .html("&laquo;"));
+        for(i=0;i<=(baseSet.length-1)/wujiangPageSize;i++){
+          var pageNum=i+1;
+          var darkGrey="";
+          if(i==0){
+            darkGrey="w3-dark-grey";
+          }
+          paginationBar.append($("<a>")
+              .attr({
+                href: "javascript:void(0)",
+                id: BUTTON+pageNum})
+              .addClass("w3-bar-item w3-button pageButton "+darkGrey)
+              .html(pageNum));
+        }
+        paginationBar.append($("<a>")
+            .attr({
+              href: "javascript:void(0)",
+              id: BUTTON+"Next"})
+            .addClass("w3-bar-item w3-button pageButton")
+            .html("&raquo;"));
+        $("#wujiang").append(paginationBar);
 
         $('.typeahead').typeahead({
               hint: false,
@@ -206,11 +246,11 @@ $(document).ready(function () {
     $("#outputwrapper").html(msg);
   }
 
-  $(".w3-bar-item").click(function (data) {
+  $(".menuButton").click(function (data) {
      $.each($(".w3-container"), function (i, element) {
        $(element).hide();
      });
-     $.each($(".w3-bar-item"), function (i, element) {
+     $.each($(".w3-bar-menu-item"), function (i, element) {
        $(element).removeClass("w3-dark-grey");
      });
 
@@ -232,6 +272,29 @@ $(document).ready(function () {
     $("#outputwrapper").text("");
     $("#skillswrapper").text("");
     $(".typeahead").focus();
+  });
+
+  $(".pageButton").click(function (data) {
+    var curPageId=$(".activePage").attr("id");
+    var curPageNum=parseInt(curPageId.substring(PAGE.length));
+    var newPageNum=curPageNum;
+    var desiredPageNum=parseInt($(data.target).text());
+    if(!desiredPageNum){
+      var buttonId=$(data.target).attr("id");
+      if(buttonId===BUTTON+"Prev" && curPageNum>1){
+        newPageNum=curPageNum-1;
+      }else if (buttonId===BUTTON+"Next" && curPageNum<Math.floor(wujiangBaseSet.length/wujiangPageSize)+1){
+        newPageNum=curPageNum+1;
+      }
+    }else{
+      newPageNum=desiredPageNum;
+    }
+    if(curPageNum!=newPageNum){
+      $(".activePage").removeClass("activePage").addClass("visuallyHidden");
+      $("#page"+newPageNum).removeClass("visuallyHidden").addClass("activePage");
+      $("#"+BUTTON+curPageNum).removeClass("w3-dark-grey");
+      $("#"+BUTTON+newPageNum).addClass("w3-dark-grey");
+    }
   });
 
   validate();

@@ -1,3 +1,7 @@
+.visuallyHidden{
+    display: none;
+}
+
 body.bodyclass{
     text-align: center
 }
