@@ -6,7 +6,7 @@ body.bodyclass{
     text-align: center
 }
 
-.w3-bar{
+div.menuBar{
     line-height: 2em;
     margin-bottom: 0.5em;
 }
@@ -16,8 +16,8 @@ a.w3-bar-item{
     display: inline !important;
 }
 
-a.w3-dark-grey{
-    color: white;
+div.paginationBar{
+    overflow: visible;
 }
 
 .w3-container{
@@ -46,10 +46,6 @@ div.secondaryTab{
     text-align: left;
 }
 
-a.active{
-    font-weight: bold;
-}
-
 div#footer {
     white-space: nowrap;
     position: absolute;
@@ -67,9 +63,7 @@ a.normalLink {
 }
 
 input#query {
-    /*float: left;*/
     margin-right: 1em;
-    /*position: relative;*/
     vertical-align: baseline !important;
 }
 

@@ -42,7 +42,7 @@ $(document).ready(function () {
                   id: PAGE+(Math.floor((i+1)/wujiangPageSize)+1)});
           }
         });
-        paginationBar=$("<div>").addClass("w3-bar w3-border w3-round w3-center");
+        paginationBar=$("<div>").addClass("w3-bar w3-center paginationBar");
         paginationBar.append($("<a>")
             .attr({
               href: "javascript:void(0)",
