@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,29 +16,33 @@
     </head>
     <title>sgsBannedCombo</title>
     <body class="bodyclass">
-        <div class="w3-bar w3-border-bottom w3-light-grey intronav menuBar">
+        <div id="header" class="w3-bar w3-border-bottom w3-light-grey intronav menuBar">
             <a href="javascript:void(0)" id="a_jinJiangBiao" class="w3-bar-item w3-bar-menu-item w3-button w3-dark-grey menuButton">禁将表</a>
             <a href="javascript:void(0)" id="a_wujiang" class="w3-bar-item w3-bar-menu-item w3-button menuButton">武将</a>
             <a href="javascript:void(0)" id="a_gameRules" class="w3-bar-item w3-bar-menu-item w3-button menuButton">游戏规则</a>
         </div>
-        <div id="jinJiangBiao" class="w3-container">
-            <div id="inputwrapper">
-                <input id="query" class="typeahead" type="text" placeholder="拼音,首字母,子字符序列查询"><input id="btnClear" type="button" value="清空">
-            </div>
+        <div id="mainContent">
+            <div id="jinJiangBiao" class="w3-container">
+                <div id="inputwrapper">
+                    <input id="query" class="typeahead" type="text" placeholder="拼音,首字母,子字符序列查询"><input id="btnClear" type="button" value="清空">
+                </div>
 
-            <div id="skillswrapper"></div>
-            <div id="outputwrapper"></div>
-        </div>
-        <div id="wujiang" class="w3-container secondaryTab"></div>
-        <div id="gameRules" class="w3-container secondaryTab"></div>
-        <div id="footer">
-            <div>
-                <a href="https://github.com/iceburgy/sgsBannedCombo" target="_blank" class="normalLink">Contribute</a>
-                <a href="https://paper.dropbox.com/doc/wujiangBannedMap-gO8sAY4eYAlF2OQ6QPk5T" target="_blank" class="normalLink footerItem">编辑禁将表</a>
-                <a href="https://paper.dropbox.com/doc/wujiangBaseMap-UQrFsr20jVBKgsJPDBoBj" target="_blank" class="normalLink footerItem">编辑武将</a>
-                <a href="https://paper.dropbox.com/doc/gameRules-8vMPGb0J3phwyY8zQjJmP" target="_blank" class="normalLink footerItem">编辑游戏规则</a>
+                <div id="skillswrapper"></div>
+                <div id="outputwrapper"></div>
             </div>
-            <div>Credits: <a href="http://bit.ly/1pXtpvz" target="_blank" class="normalLink">[SGS高手群]基本村规</a></div>
+            <div id="wujiang" class="w3-container secondaryTab"></div>
+            <div id="gameRules" class="w3-container secondaryTab"></div>
+        </div>
+        <div id="footer" class="w3-bar w3-border-top w3-light-grey intronav">
+            <div id="footerInnerContainer">
+                <div>
+                    <a href="https://github.com/iceburgy/sgsBannedCombo" target="_blank" class="normalLink">Contribute</a>
+                    <a href="https://paper.dropbox.com/doc/wujiangBannedMap-gO8sAY4eYAlF2OQ6QPk5T" target="_blank" class="normalLink footerItem">编辑禁将表</a>
+                    <a href="https://paper.dropbox.com/doc/wujiangBaseMap-UQrFsr20jVBKgsJPDBoBj" target="_blank" class="normalLink footerItem">编辑武将</a>
+                    <a href="https://paper.dropbox.com/doc/gameRules-8vMPGb0J3phwyY8zQjJmP" target="_blank" class="normalLink footerItem">编辑游戏规则</a>
+                </div>
+                <div>Credits: <a href="http://bit.ly/1pXtpvz" target="_blank" class="normalLink">[SGS高手群]基本村规</a></div>
+            </div>
         </div>
     </body>
 </html>

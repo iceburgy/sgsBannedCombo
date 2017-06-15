@@ -6,9 +6,12 @@ body.bodyclass{
     text-align: center
 }
 
+#mainContent{
+    overflow: auto;
+}
+
 div.menuBar{
     line-height: 2em;
-    margin-bottom: 0.5em;
 }
 
 a.w3-bar-item{
@@ -18,11 +21,6 @@ a.w3-bar-item{
 
 div.paginationBar{
     overflow: visible;
-}
-
-.w3-container{
-    height: 85%;
-    overflow: auto;
 }
 
 div#inputwrapper {
@@ -48,12 +46,13 @@ div.secondaryTab{
 
 div#footer {
     white-space: nowrap;
-    position: absolute;
-    bottom: 1em;
-    left: 50%;
-    transform: translate(-50%);
     font-size: 0.8em;
 }
+
+div#footerInnerContainer {
+    padding: 5px 0 5px 0;
+}
+
 a.normalLink {
     color: -webkit-link !important;
 }
@@ -65,37 +64,6 @@ a.normalLink {
 input#query {
     margin-right: 1em;
     vertical-align: baseline !important;
-}
-
-@media (max-height: 700px) {
-    .w3-container{
-        height: 83%;
-    }
-}
-@media (max-height: 650px) {
-    .w3-container{
-        height: 82%;
-    }
-}
-@media (max-height: 600px) {
-    .w3-container{
-        height: 81%;
-    }
-}
-@media (max-height: 550px) {
-    .w3-container{
-        height: 80%;
-    }
-}
-@media (max-height: 500px) {
-    .w3-container{
-        height: 75%;
-    }
-}
-@media (max-height: 400px) {
-    div#footer{
-        display: none;
-    }
 }
 
 .tt-query, /* UPDATE: newer versions use tt-input instead of tt-query */

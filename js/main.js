@@ -246,6 +246,12 @@ $(document).ready(function () {
     $("#outputwrapper").html(msg);
   }
 
+  var bufferHeight = $('#header').height() + $('#footer').height() + 2;
+  $(window).resize(function() {
+    $('#mainContent').height($(window).height() - bufferHeight);
+  });
+  $(window).trigger('resize');
+
   $(".menuButton").click(function (data) {
      $.each($(".w3-container"), function (i, element) {
        $(element).hide();
