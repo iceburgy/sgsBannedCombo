@@ -12,6 +12,7 @@ body.bodyclass{
 
 div.menuBar{
     line-height: 2em;
+    margin-bottom: 8px;
 }
 
 a.w3-bar-item{
