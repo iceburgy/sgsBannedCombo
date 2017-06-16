@@ -12,7 +12,6 @@ body.bodyclass{
 
 div.menuBar{
     line-height: 2em;
-    margin-bottom: 8px;
 }
 
 a.w3-bar-item{
@@ -22,6 +21,10 @@ a.w3-bar-item{
 
 div.paginationBar{
     overflow: visible;
+}
+
+div#jinJiangBiao{
+    margin-top: 8px;
 }
 
 div#inputwrapper {
