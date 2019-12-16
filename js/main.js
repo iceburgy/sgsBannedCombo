@@ -5,7 +5,7 @@ $(document).ready(function () {
   var wujiangBaseSet=[];
   var wujiangBannedMap={};
   var dropdownSize=15;
-  var wujiangPageSize=5;
+  var wujiangPageSize=999;
   var paginationBar="";
   var PAGE="page";
   var BUTTON="button";
