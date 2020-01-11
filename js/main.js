@@ -36,7 +36,7 @@ $(document).ready(function () {
         $.each(baseSet, function (i, name) {
           container.append(renderWujiang(name, baseMap[name]));
           if((i+1)%wujiangPageSize==0 || i+1==baseSet.length){
-            $("#wujiang").append(container);
+            //$("#wujiang").append(container);
             container=$("<div>").addClass("visuallyHidden")
                 .attr({
                   id: PAGE+(Math.floor((i+1)/wujiangPageSize)+1)});
@@ -68,7 +68,7 @@ $(document).ready(function () {
               id: BUTTON+"Next"})
             .addClass("w3-bar-item w3-button pageButton")
             .html("&raquo;"));
-        $("#wujiang").append(paginationBar);
+        //$("#wujiang").append(paginationBar);
 
         $('.typeahead').typeahead({
               hint: false,
