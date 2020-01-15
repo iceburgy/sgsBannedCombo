@@ -271,6 +271,7 @@ $(document).ready(function () {
   readSgsWujiangBannedMap();
 
   $(document).ajaxStop(function() {
+    $("#overlay").remove();
     validate();
   });
 
