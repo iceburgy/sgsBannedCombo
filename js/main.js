@@ -18,7 +18,7 @@ $(document).ready(function () {
   {
     $.ajax({
       url: "https://api.dropboxapi.com/2/paper/docs/download",
-      async: false,
+      async: true,
       type: "POST",
       headers: {"Authorization": "Bearer wzahoqHWjoQAAAAAAAAAFV2iwzrw_BFSgaena__5iraqztOyTepnnUc5J1S-73FM",
         "Dropbox-API-Arg": "{\"doc_id\": \"UQrFsr20jVBKgsJPDBoBj\",\"export_format\": \"markdown\"}"},
@@ -93,7 +93,7 @@ $(document).ready(function () {
   {
     $.ajax({
       url: "https://api.dropboxapi.com/2/paper/docs/download",
-      async: false,
+      async: true,
       type: "POST",
       headers: {"Authorization": "Bearer wzahoqHWjoQAAAAAAAAAFV2iwzrw_BFSgaena__5iraqztOyTepnnUc5J1S-73FM",
         "Dropbox-API-Arg": "{\"doc_id\": \"gO8sAY4eYAlF2OQ6QPk5T\",\"export_format\": \"markdown\"}"},
@@ -114,7 +114,7 @@ $(document).ready(function () {
   {
     $.ajax({
       url: "https://api.dropboxapi.com/2/paper/docs/download",
-      async: false,
+      async: true,
       type: "POST",
       headers: {"Authorization": "Bearer wzahoqHWjoQAAAAAAAAAFV2iwzrw_BFSgaena__5iraqztOyTepnnUc5J1S-73FM",
         "Dropbox-API-Arg": "{\"doc_id\": \"8vMPGb0J3phwyY8zQjJmP\",\"export_format\": \"markdown\"}"},
@@ -238,7 +238,7 @@ $(document).ready(function () {
       msg+="Cookie is currently disabled. <br/>Enable browser cookie for search history hint.";
     }
     if(matches && matches.length>0){
-      msg+="<br/>keys missing base:"+JSON.stringify(matches);
+      msg+="<br/>keys missing in base:"+JSON.stringify(matches);
     }
     if(!msg){
       msg="Data valid";
@@ -269,6 +269,11 @@ $(document).ready(function () {
   readSgsGameRules();
   readSgsWujiangBaseMap();
   readSgsWujiangBannedMap();
+
+  $(document).ajaxStop(function() {
+    validate();
+  });
+
   $('.typeahead').bind('typeahead:selected', selectHandler);
 
   $(".typeahead").on('typeahead:change keyup paste mouseup touchend', arrowHandler);
@@ -303,7 +308,4 @@ $(document).ready(function () {
     }
   });
 
-  validate();
-
 });
-
