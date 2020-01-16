@@ -6,6 +6,11 @@ body.bodyclass{
     text-align: center
 }
 
+input[type='text'],
+input[type='button'] {
+  font-size: 16px;
+}
+
 #mainContent{
     overflow: auto;
     -webkit-overflow-scrolling: touch;
