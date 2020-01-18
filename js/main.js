@@ -246,7 +246,7 @@ $(document).ready(function () {
     $("#outputwrapper").html(msg);
   }
 
-  var bufferHeight = $('#header').height() + $('#footer').height() + 2;
+  var bufferHeight = $('#header').height() + $('#footer').height();
   $(window).resize(function() {
     $('#mainContent').height($(window).height() - bufferHeight);
   });
