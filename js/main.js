@@ -223,6 +223,14 @@ $(document).ready(function () {
     return $ul;
   }
 
+  function performResizing() {
+    var bufferHeight = $('#header').height() + $('#footer').height();
+    $(window).resize(function() {
+      $('#mainContent').height($(window).height() - bufferHeight-2);
+    });
+    $(window).trigger('resize');
+  }
+
   // validate that all of the banned map entries can be found in the base set
   function validate(){
     var matches=[];
@@ -295,20 +303,15 @@ $(document).ready(function () {
   });
 
   // actual code to execute
+  performResizing();
   readSgsGameRules();
   readSgsWujiangBaseMap();
   readSgsWujiangBannedMap();
 
   $(document).ajaxStop(function() {
     $("#overlay").remove();
-
-    var bufferHeight = $('#header').height() + $('#footer').height();
-    $(window).resize(function() {
-      $('#mainContent').height($(window).height() - bufferHeight-2);
-    });
-    $(window).trigger('resize');
-
     validate();
+    performResizing();
   });
 
 });
