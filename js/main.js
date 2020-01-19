@@ -229,9 +229,6 @@ $(document).ready(function () {
       $('#mainContent').height($(window).height() - bufferHeight-2);
     });
     $(window).trigger('resize');
-    oldHtml = $("#outputwrapper").html();
-    newHtml = oldHtml + "<br/>header: " + $('#header').height() + " footer: " + $('#footer').height() + " mainContent: " + $('#mainContent').height() + " window: " + $(window).height()
-    $("#outputwrapper").html(newHtml);
   }
 
   // validate that all of the banned map entries can be found in the base set
@@ -254,9 +251,7 @@ $(document).ready(function () {
     if(!msg){
       msg="Data valid";
     }
-    oldHtml = $("#outputwrapper").html();
-    newHtml = oldHtml + "<br/>" + msg;
-    $("#outputwrapper").html(newHtml);
+    $("#outputwrapper").html(msg);
   }
 
   $(".menuButton").click(function (data) {
