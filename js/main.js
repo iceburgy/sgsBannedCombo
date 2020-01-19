@@ -246,12 +246,6 @@ $(document).ready(function () {
     $("#outputwrapper").html(msg);
   }
 
-  var bufferHeight = $('#header').height() + $('#footer').height();
-  $(window).resize(function() {
-    $('#mainContent').height($(window).height() - bufferHeight);
-  });
-  $(window).trigger('resize');
-
   $(".menuButton").click(function (data) {
      $.each($(".w3-container"), function (i, element) {
        $(element).hide();
@@ -264,15 +258,6 @@ $(document).ready(function () {
      var contentId=data.target.id.split("_")[1];
      $("#"+contentId).show();
      $(data.target).addClass("w3-dark-grey");
-  });
-
-  readSgsGameRules();
-  readSgsWujiangBaseMap();
-  readSgsWujiangBannedMap();
-
-  $(document).ajaxStop(function() {
-    $("#overlay").remove();
-    validate();
   });
 
   $('.typeahead').bind('typeahead:selected', selectHandler);
@@ -307,6 +292,23 @@ $(document).ready(function () {
       $("#"+BUTTON+curPageNum).removeClass("w3-dark-grey");
       $("#"+BUTTON+newPageNum).addClass("w3-dark-grey");
     }
+  });
+
+  // actual code to execute
+  readSgsGameRules();
+  readSgsWujiangBaseMap();
+  readSgsWujiangBannedMap();
+
+  $(document).ajaxStop(function() {
+    $("#overlay").remove();
+
+    var bufferHeight = $('#header').height() + $('#footer').height();
+    $(window).resize(function() {
+      $('#mainContent').height($(window).height() - bufferHeight-2);
+    });
+    $(window).trigger('resize');
+
+    validate();
   });
 
 });
