@@ -316,7 +316,7 @@ $(document).ready(function () {
   $(document).ajaxStop(function() {
     $("#overlay").remove();
     validate();
-//    performResizing();
+    performResizing();
   });
 
 });
