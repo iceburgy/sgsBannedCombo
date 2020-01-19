@@ -230,7 +230,7 @@ $(document).ready(function () {
     });
     $(window).trigger('resize');
     oldHtml = $("#outputwrapper").html();
-    newHtml = oldHtml + "<br/>header: " + $('#header').height() + " footer: " + $('#footer').height() + " mainContent: " + $('#mainContent').height()
+    newHtml = oldHtml + "<br/>header: " + $('#header').height() + " footer: " + $('#footer').height() + " mainContent: " + $('#mainContent').height() + " window: " + $(window).height()
     $("#outputwrapper").html(newHtml);
   }
 
