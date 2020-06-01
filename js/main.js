@@ -19,7 +19,7 @@ $(document).ready(function () {
     $.ajax({
       url: "https://api.dropboxapi.com/2/paper/docs/download",
       async: true,
-      type: "POST",
+      type: "GET",
       headers: {"Authorization": "Bearer wzahoqHWjoQAAAAAAAAAFV2iwzrw_BFSgaena__5iraqztOyTepnnUc5J1S-73FM",
         "Dropbox-API-Arg": "{\"doc_id\": \"UQrFsr20jVBKgsJPDBoBj\",\"export_format\": \"markdown\"}"},
       success: function(result) {
@@ -85,22 +85,18 @@ $(document).ready(function () {
     });
   }
 
-  function populateBannedMap(bannedMap) {
-    wujiangBannedMap=bannedMap;
-  }
-
   function readSgsWujiangBannedMap()
   {
     $.ajax({
       url: "https://api.dropboxapi.com/2/paper/docs/download",
       async: true,
-      type: "POST",
+      type: "GET",
       headers: {"Authorization": "Bearer wzahoqHWjoQAAAAAAAAAFV2iwzrw_BFSgaena__5iraqztOyTepnnUc5J1S-73FM",
         "Dropbox-API-Arg": "{\"doc_id\": \"gO8sAY4eYAlF2OQ6QPk5T\",\"export_format\": \"markdown\"}"},
       success: function(result) {
         var bannedMap=result.split('\n');
         bannedMap.splice(0, 1);
-        bannedMap=JSON.parse(bannedMap.join(' '));
+        bannedMap=JSON.parse(bannedMap.join('\n'));
         populateBannedMap(bannedMap);
       }
     });
@@ -115,7 +111,7 @@ $(document).ready(function () {
     $.ajax({
       url: "https://api.dropboxapi.com/2/paper/docs/download",
       async: true,
-      type: "POST",
+      type: "GET",
       headers: {"Authorization": "Bearer wzahoqHWjoQAAAAAAAAAFV2iwzrw_BFSgaena__5iraqztOyTepnnUc5J1S-73FM",
         "Dropbox-API-Arg": "{\"doc_id\": \"8vMPGb0J3phwyY8zQjJmP\",\"export_format\": \"markdown\"}"},
       success: function(result) {
@@ -170,17 +166,22 @@ $(document).ready(function () {
     var fontcolor="black";
     if ($.inArray(key, wujiangBaseSet) >= 0) {
       if (wujiangBannedMap[key]) {
-        banned = bannedPrefix + wujiangBannedMap[key];
+        $("#outputwrapper").text('');
+        var banList=wujiangBannedMap[key];
+        var ul = $('<ul>').text(bannedPrefix).append(
+          banList.map(banitem =>
+            $("<li>").text(banitem))
+        );
         fontcolor="red";
       } else {
-        banned = goodtogo;
+        $("#outputwrapper").text(goodtogo);
         fontcolor="green";
       }
       skills=renderSkills(wujiangBaseMap[key]);
       updateLruCookie(key, dropdownSize);
     }
     $("#skillswrapper").html(skills);
-    $("#outputwrapper").text(banned);
+    $("#outputwrapper").append(ul);
     $("#outputwrapper").css({ 'color': fontcolor });
     $("#btnClear").focus();
   }
@@ -193,16 +194,21 @@ $(document).ready(function () {
       var banned = "";
       if ($.inArray(key, wujiangBaseSet) >= 0) {
         if (wujiangBannedMap[key]) {
-          banned = bannedPrefix + wujiangBannedMap[key];
+          $("#outputwrapper").text('');
+          var banList=wujiangBannedMap[key];
+          var ul = $('<ul>').text(bannedPrefix).append(
+            banList.map(banitem =>
+              $("<li>").text(banitem))
+          );
           fontcolor="red";
         } else {
-          banned = goodtogo;
+          $("#outputwrapper").text(goodtogo);
           fontcolor="green";
         }
         skills=renderSkills(wujiangBaseMap[key]);
       }
       $("#skillswrapper").html(skills);
-      $("#outputwrapper").text(banned);
+      $("#outputwrapper").append(ul);
       $("#outputwrapper").css({ 'color': fontcolor });
     }
   }

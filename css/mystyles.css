@@ -39,7 +39,8 @@ div#inputwrapper {
     z-index: 1;
 }
 div#outputwrapper {
-    margin-top: 2em;
+    display: inline-block;
+    text-align: left;
 }
 
 div#skillswrapper {
