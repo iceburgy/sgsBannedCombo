@@ -244,6 +244,11 @@ $(document).ready(function () {
       if ($.inArray(key, wujiangBaseSet) == -1) {
         matches.push(key);
       }
+	  $.each(wujiangBannedMap[key], function (i, str) {
+	    if ($.inArray(str, wujiangBaseSet) == -1&&$.inArray(str, matches) == -1) {
+          matches.push(str);
+        }
+	  });
     });
 
     var msg="";
