@@ -161,44 +161,43 @@ $(document).ready(function () {
 
   function selectHandler(obj, datum, name) {
     var key = datum.replace(/\r?\n|\r/g, " ").trim();
-    var skills = "";
-    var banned = "";
-    var fontcolor="black";
-    if ($.inArray(key, wujiangBaseSet) >= 0) {
-      if (wujiangBannedMap[key]) {
-        $("#outputwrapper").text('');
-        var banList=wujiangBannedMap[key];
-        var ul = $('<ul>').text(bannedPrefix).append(
-          banList.map(banitem =>
-            $("<li>").text(banitem))
-        );
-        fontcolor="red";
-      } else {
-        $("#outputwrapper").text(goodtogo);
-        fontcolor="green";
-      }
-      skills=renderSkills(wujiangBaseMap[key]);
-      updateLruCookie(key, dropdownSize);
-    }
-    $("#skillswrapper").html(skills);
-    $("#outputwrapper").append(ul);
-    $("#outputwrapper").css({ 'color': fontcolor });
-    $("#btnClear").focus();
+    renderRoleInfoWithPageUpdate(key);
   }
-
   function arrowHandler() {
-    var fontcolor="black";
     var key = $(".typeahead").val();
+    renderRoleInfo(key);
+  }
+  function roleClickHandler(event) {
+    var key=event.data.key;
+    renderRoleInfoWithPageUpdate(key);
+  }
+  function renderRoleInfoWithPageUpdate(key) {
+    if(renderRoleInfo(key)){
+      if($('.typeahead').typeahead('val')!=key) {
+        $('.typeahead').typeahead('val',key);
+      }
+      updateLruCookie(key, dropdownSize);
+      $("#btnClear").focus();
+    }
+  }
+  function renderRoleInfo(key) {
+    var keyFound=false;
     if(key){
       var skills = "";
       var banned = "";
+      var fontcolor="black";
       if ($.inArray(key, wujiangBaseSet) >= 0) {
         if (wujiangBannedMap[key]) {
           $("#outputwrapper").text('');
           var banList=wujiangBannedMap[key];
           var ul = $('<ul>').text(bannedPrefix).append(
             banList.map(banitem =>
-              $("<li>").text(banitem))
+              $("<li>").append(
+                $("<a>")
+                  .attr("href", "#")
+                  .text(banitem)
+                  .click({key: banitem}, roleClickHandler)
+              ))
           );
           fontcolor="red";
         } else {
@@ -206,11 +205,13 @@ $(document).ready(function () {
           fontcolor="green";
         }
         skills=renderSkills(wujiangBaseMap[key]);
+        keyFound=true;
       }
       $("#skillswrapper").html(skills);
       $("#outputwrapper").append(ul);
       $("#outputwrapper").css({ 'color': fontcolor });
     }
+    return keyFound;
   }
   function renderSkills(skills) {
     //var list = '<ul><li>' + skills.join('</a></li><li>') + '</li></ul>';
