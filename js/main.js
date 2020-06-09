@@ -261,7 +261,7 @@ $(document).ready(function () {
       msg+="<br/>keys missing in base:"+JSON.stringify(matches);
     }
     if(!msg){
-      msg="Data valid";
+      msg="Data valid<br/>Total characters: "+wujiangBaseSet.length;
     }
     $("#outputwrapper").html(msg);
   }
