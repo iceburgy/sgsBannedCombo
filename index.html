@@ -23,18 +23,32 @@
 
         <div id="header" class="w3-bar w3-border-bottom w3-light-grey intronav menuBar">
             <a href="javascript:void(0)" id="a_jinJiangBiao" class="w3-bar-item w3-bar-menu-item w3-button w3-dark-grey menuButton">搜索</a><a
+                href="javascript:void(0)" id="a_editJinJiangBiao" class="w3-bar-item w3-bar-menu-item w3-button menuButton">编辑禁将</a><a
                 href="javascript:void(0)" id="a_gameRules" class="w3-bar-item w3-bar-menu-item w3-button menuButton">游戏规则</a>
         </div>
         <div id="mainContent">
-            <div id="jinJiangBiao" class="w3-container">
-                <div id="inputwrapper">
-                    <input id="query" class="typeahead" type="text" placeholder="拼音,首字母,子字符串"><input id="btnClear" type="button" value="清空">
+            <div id="jinJiangBiao" class="w3-container topwrapper">
+                <div class="inputwrapper">
+                    <input id="query" class="typeahead typeaheadmain" type="text" placeholder="拼音,首字母,子字符串"><input id="btnClear" type="button" value="清空">
                 </div>
 
                 <div id="skillswrapper"></div>
-                <div id="outputwrapper">Loading...</div>
+                <div id="outputwrapper" class="outputwrapperclass">Loading...</div>
             </div>
-            <div id="gameRules" class="w3-container secondaryTab"></div>
+            <div id="editJinJiangBiao" class="w3-container secondaryTab topwrapper">
+                <div class="inputwrapper">
+                    <input id="editQuery" class="typeahead typeaheadedit1" type="text" placeholder="拼音,首字母,子字符串"><input
+                        id="editQuery2" class="typeahead typeaheadedit2" type="text" placeholder="拼音,首字母,子字符串"><input
+                        id="btnAddCombo" type="button" value="增加"><input
+                        id="btnDeleteCombo" type="button" value="删除"><input
+                        id="btnEditSubmit" type="button" value="提交"><input
+                        id="btnEditClearRole2" type="button" value="清空2"><input
+                        id="btnEditClear" type="button" value="清空all">
+                </div>
+                <br/>
+                <div id="editoutputwrapper" class="outputwrapperclass"></div>
+            </div>
+            <div id="gameRules" class="w3-container secondaryTab textTab"></div>
         </div>
         <div id="footer" class="w3-bar w3-border-top w3-light-grey intronav">
             <div id="footerInnerContainer">

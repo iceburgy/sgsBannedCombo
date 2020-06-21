@@ -9,6 +9,7 @@ $(document).ready(function () {
   var paginationBar="";
   var PAGE="page";
   var BUTTON="button";
+  var editMade=false;
 
   function populateBase(baseMap, baseSet) {
     wujiangBaseMap=baseMap;
@@ -159,12 +160,114 @@ $(document).ready(function () {
     return false;
   }
 
+  function btnAddDeleteComboHandler(event) {
+    var outputwrapperid='#editoutputwrapper';
+    if(event.currentTarget.id=='btnEditSubmit'){
+      if(editMade){
+        uploadWujiangBannedMap(outputwrapperid);
+        editMade=false;
+      }
+      else{
+        $(outputwrapperid).append("<br/>No edits made, submit skipped");
+      }
+      return;
+    }
+    var role1=$(".typeaheadedit1").val();
+    var role2=$(".typeaheadedit2").val();
+
+    if(!role1) $(outputwrapperid).append("<br/>Missing first role");
+    else if(!role2) $(outputwrapperid).append("<br/>Missing second role");
+    else if ($.inArray(role1, wujiangBaseSet) == -1) {
+      $(outputwrapperid).append("<br/>Invalid first role name: "+role1);
+    }
+    else if ($.inArray(role2, wujiangBaseSet) == -1) {
+      $(outputwrapperid).append("<br/>Invalid second role name: "+role2);
+    }
+    else if (role1==role2) {
+      $(outputwrapperid).append("<br/>Same role name: "+role1);
+    }
+    else {
+      var updated1to2=false, updated2to1=false;
+      if(event.currentTarget.id=='btnAddCombo'){
+        updated1to2=addCombo(role1, role2, outputwrapperid);
+        updated2to1=addCombo(role2, role1, outputwrapperid);
+      }else{
+        updated1to2=deleteCombo(role1, role2, outputwrapperid);
+        updated2to1=deleteCombo(role2, role1, outputwrapperid);
+      }
+      editMade=editMade||updated1to2||updated2to1
+    }
+  }
+
+  function addCombo(role1, role2, outputwrapperid) {
+    var updated=false;
+    if($.inArray(role2, wujiangBannedMap[role1]) >= 0){
+      $(outputwrapperid).append("<br/>mapping from "+role1+" to "+role2+" already exists, skipped");
+    }
+    else{
+      if(!wujiangBannedMap[role1]){
+        wujiangBannedMap[role1]=[];
+      }
+      wujiangBannedMap[role1].push(role2);
+      $(outputwrapperid).append("<br/>mapping from "+role1+" to "+role2+" added");
+      updated=true;
+    }
+    return updated;
+  }
+
+  function deleteCombo(role1, role2, outputwrapperid) {
+    var updated=false;
+    if(wujiangBannedMap[role1]&&wujiangBannedMap[role1].length){
+      var index2in1=$.inArray(role2, wujiangBannedMap[role1])
+      if(index2in1>=0){
+        wujiangBannedMap[role1].splice(index2in1, 1);
+        if(wujiangBannedMap[role1].length==0){
+          delete wujiangBannedMap[role1];
+        }
+        updated=true;
+      }
+    }
+    if(updated){
+      $(outputwrapperid).append("<br/>mapping from "+role1+" to "+role2+" found and deleted");
+    }
+    else{
+      $(outputwrapperid).append("<br/>mapping from "+role1+" to "+role2+" does not exist, skipped");
+    }
+    return updated;
+  }
+
+  function uploadWujiangBannedMap(outputwrapperid) {
+    var httpReq = new XMLHttpRequest();
+    var url='https://api.dropboxapi.com/2/paper/docs/download';
+    httpReq.open("GET",url,false);
+    httpReq.setRequestHeader('Authorization','Bearer wzahoqHWjoQAAAAAAAAAFV2iwzrw_BFSgaena__5iraqztOyTepnnUc5J1S-73FM');
+    httpReq.setRequestHeader('Dropbox-API-Arg',"{\"doc_id\": \"gO8sAY4eYAlF2OQ6QPk5T\",\"export_format\": \"markdown\"}");
+    httpReq.send();
+    var revision=JSON.parse(httpReq.getResponseHeader("Dropbox-Api-Result")).revision;
+    console.log('current doc version identified: '+revision);
+    $(outputwrapperid).append("<br/>current doc version identified: "+revision);
+
+    var httpReqUpdate = new XMLHttpRequest();
+    var urlUpdate='https://api.dropboxapi.com/2/paper/docs/update';
+    httpReqUpdate.open("POST",urlUpdate,false);
+    httpReqUpdate.setRequestHeader("Authorization","Bearer wzahoqHWjoQAAAAAAAAAFV2iwzrw_BFSgaena__5iraqztOyTepnnUc5J1S-73FM");
+    httpReqUpdate.setRequestHeader("Content-Type","application/octet-stream");
+    httpReqUpdate.setRequestHeader("Dropbox-API-Arg","{\"doc_id\": \"gO8sAY4eYAlF2OQ6QPk5T\",\"doc_update_policy\": \"overwrite_all\",\"revision\":"+revision+",\"import_format\": \"markdown\"}");
+
+    var title='wujiangBannedMap';
+    var content=JSON.stringify(wujiangBannedMap,null,4);
+    httpReqUpdate.send(title+"\n"+content);
+    console.log('Uploaded total wujiangBannedMap entries: '+Object.keys(wujiangBannedMap).length);
+    $(outputwrapperid).append("<br/>Uploaded total wujiangBannedMap entries: "+Object.keys(wujiangBannedMap).length);
+    $(outputwrapperid).append("<br/>Success!");
+  }
+
   function selectHandler(obj, datum, name) {
     var key = datum.replace(/\r?\n|\r/g, " ").trim();
     renderRoleInfoWithPageUpdate(key);
   }
   function arrowHandler() {
-    var key = $(".typeahead").val();
+    var key = $(".typeaheadmain").val();
     renderRoleInfo(key);
   }
   function roleClickHandler(event) {
@@ -173,8 +276,8 @@ $(document).ready(function () {
   }
   function renderRoleInfoWithPageUpdate(key) {
     if(renderRoleInfo(key)){
-      if($('.typeahead').typeahead('val')!=key) {
-        $('.typeahead').typeahead('val',key);
+      if($('.typeaheadmain').typeahead('val')!=key) {
+        $('.typeaheadmain').typeahead('val',key);
       }
       updateLruCookie(key, dropdownSize);
       $("#btnClear").focus();
@@ -240,16 +343,24 @@ $(document).ready(function () {
 
   // validate that all of the banned map entries can be found in the base set
   function validate(){
+    $("#outputwrapper").text("");
     var matches=[];
+    var missingPair=[];
     $.each(Object.keys(wujiangBannedMap), function (i, key) {
       if ($.inArray(key, wujiangBaseSet) == -1) {
         matches.push(key);
       }
-	  $.each(wujiangBannedMap[key], function (i, str) {
-	    if ($.inArray(str, wujiangBaseSet) == -1&&$.inArray(str, matches) == -1) {
+      $.each(wujiangBannedMap[key], function (i, str) {
+        if ($.inArray(str, wujiangBaseSet) == -1&&$.inArray(str, matches) == -1) {
           matches.push(str);
         }
-	  });
+
+        // check asymmetric: if key->str, but str does not -> key
+        if ($.inArray(key, wujiangBannedMap[str]) == -1) {
+          var pair=str+','+key;
+          missingPair.push(pair);
+        }
+      });
     });
 
     var msg="";
@@ -260,10 +371,26 @@ $(document).ready(function () {
     if(matches && matches.length>0){
       msg+="<br/>keys missing in base:"+JSON.stringify(matches);
     }
-    if(!msg){
-      msg="Data valid<br/>Total characters: "+wujiangBaseSet.length;
+    if(missingPair.length){
+      $("#outputwrapper").append("<br/>missing pair(s) detected: "+JSON.stringify(missingPair));
+      $("#outputwrapper").append("<br/>fixing...");
+      fixMissingPair(missingPair);
+      $("#outputwrapper").append("<br/>missing pair(s) fixed");
     }
-    $("#outputwrapper").html(msg);
+    else if(!msg){
+      msg="Data valid<br/>Total characters: "+wujiangBaseSet.length;
+      msg+="<br/>Total combo ban entries: "+Object.keys(wujiangBannedMap).length;
+      $("#outputwrapper").append(msg);
+    }
+  }
+
+  function fixMissingPair(missingPair){
+    var updated=false;
+    for(var pair of missingPair){
+      var pairs=pair.split(',');
+      updated=(addCombo(pairs[0], pairs[1], '#outputwrapper')||updated);
+    }
+    if(updated) uploadWujiangBannedMap('#outputwrapper');
   }
 
   $(".menuButton").click(function (data) {
@@ -280,15 +407,28 @@ $(document).ready(function () {
      $(data.target).addClass("w3-dark-grey");
   });
 
-  $('.typeahead').bind('typeahead:selected', selectHandler);
+  $('.typeaheadmain').bind('typeahead:selected', selectHandler);
 
-  $(".typeahead").on('typeahead:change keyup paste mouseup touchend', arrowHandler);
+  $(".typeaheadmain").on('typeahead:change keyup paste mouseup touchend', arrowHandler);
 
   $("#btnClear").click(function () {
-    $('.typeahead').typeahead('val', '');
+    $('.typeaheadmain').typeahead('val', '');
     $("#outputwrapper").text("");
     $("#skillswrapper").text("");
-    $(".typeahead").focus();
+    $(".typeaheadmain").focus();
+  });
+
+  $("#btnAddCombo").on("click", btnAddDeleteComboHandler);
+  $("#btnDeleteCombo").on("click", btnAddDeleteComboHandler);
+  $("#btnEditSubmit").on("click", btnAddDeleteComboHandler);
+  $("#btnEditClear").click(function (event) {
+    $('.typeaheadedit1, .typeaheadedit2').typeahead('val', '');
+    $("#editoutputwrapper").text("");
+    $(".typeaheadedit1").focus();
+  });
+  $("#btnEditClearRole2").click(function (event) {
+    $('.typeaheadedit2').typeahead('val', '');
+    $(".typeaheadedit2").focus();
   });
 
   $(".pageButton").click(function (data) {
