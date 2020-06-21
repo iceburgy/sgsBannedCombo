@@ -29,21 +29,18 @@ div.paginationBar{
     overflow: visible;
 }
 
-div#jinJiangBiao{
+div.topwrapper{
     margin-top: 8px;
 }
 
-div#inputwrapper {
+div.inputwrapper {
     display: inline-block;
     white-space: nowrap;
     z-index: 1;
 }
-div#outputwrapper {
+div.outputwrapperclass {
     display: inline-block;
     text-align: left;
-}
-
-div#skillswrapper {
     margin-top: 2em;
 }
 .skillItem {
@@ -52,6 +49,9 @@ div#skillswrapper {
 
 div.secondaryTab{
     display: none;
+}
+
+div.textTab{
     text-align: left;
 }
 
@@ -72,7 +72,7 @@ a.normalLink {
     padding-left: 0.5em;
 }
 
-input#query {
+input.typeahead {
     margin-right: 1em;
     vertical-align: baseline !important;
 }
