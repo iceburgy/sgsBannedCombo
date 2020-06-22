@@ -293,13 +293,14 @@ $(document).ready(function () {
 		var keyFound = false;
 		if (key) {
 			var skills = "";
+			var ul = "";
 			var banned = "";
 			var fontcolor = "black";
 			if ($.inArray(key, wujiangBaseSet) >= 0) {
 				if (wujiangBannedMap[key]) {
 					$("#outputwrapper").text('');
 					var banList = wujiangBannedMap[key];
-					var ul = $('<ul>').text(bannedPrefix).append(
+					ul = $('<ul>').text(bannedPrefix).append(
 						banList.map(banitem =>
 							$("<li>").append(
 								$("<a>")
@@ -312,14 +313,15 @@ $(document).ready(function () {
 					);
 					fontcolor = "red";
 				} else {
-					$("#outputwrapper").text(goodtogo);
+					ul=goodtogo;
 					fontcolor = "green";
 				}
 				skills = renderSkills(wujiangBaseMap[key]);
 				keyFound = true;
 			}
 			$("#skillswrapper").html(skills);
-			$("#outputwrapper").append(ul);
+			$("#outputwrapper").html("");
+			if(ul) $("#outputwrapper").append(ul);
 			$("#outputwrapper").css({
 				'color': fontcolor
 			});
