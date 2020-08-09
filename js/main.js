@@ -389,11 +389,12 @@ $(document).ready(function () {
 			$("#outputwrapper").append("<br/>fixing...");
 			fixMissingPair(missingPair);
 			$("#outputwrapper").append("<br/>missing pair(s) fixed");
+			return;
 		} else if (!msg) {
 			msg = "Data valid<br/>Total characters: " + wujiangBaseSet.length;
 			msg += "<br/>Total combo ban entries: " + Object.keys(wujiangBannedMap).length;
-			$("#outputwrapper").append(msg);
 		}
+		$("#outputwrapper").append(msg);
 	}
 
 	function fixMissingPair(missingPair) {
