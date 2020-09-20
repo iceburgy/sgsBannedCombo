@@ -7,6 +7,8 @@
         <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 
+        <script src="js/CryptoJS_v3.1.2/rollups/aes.js"></script>
+        <script src="js/crypto.js"></script>
         <script src="js/lru.js"></script>
         <script src="js/bloodhound.js"></script>
         <script src="js/typeahead.jquery.js"></script>
@@ -37,10 +39,15 @@
             </div>
             <div id="editJinJiangBiao" class="w3-container secondaryTab topwrapper">
                 <div class="inputwrapper">
+                    <input id="authToken" type="text" placeholder="密钥">
+                </div>
+                <p/>
+                <div class="inputwrapper">
                     <input id="editQuery" class="typeahead typeaheadedit1" type="text" placeholder="拼音,首字母,子字符串"><input
                         id="editQuery2" class="typeahead typeaheadedit2" type="text" placeholder="拼音,首字母,子字符串"><input
                         id="btnAddCombo" type="button" value="增加"><input
                         id="btnDeleteCombo" type="button" value="删除"><input
+                        id="btnResetCombo" type="button" value="重置"><input
                         id="btnEditSubmit" type="button" value="提交"><input
                         id="btnEditClearRole2" type="button" value="清空2"><input
                         id="btnEditClear" type="button" value="清空all">

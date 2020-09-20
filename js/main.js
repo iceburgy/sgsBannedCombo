@@ -167,15 +167,18 @@ $(document).ready(function () {
 		return false;
 	}
 
-	function btnAddDeleteComboHandler(event) {
+	function btnGlobalHandler(event) {
 		var outputwrapperid = '#editoutputwrapper';
 		if (event.currentTarget.id == 'btnEditSubmit') {
 			if (editMade) {
 				uploadWujiangBannedMap(outputwrapperid);
-				editMade = false;
 			} else {
 				$(outputwrapperid).append("<br/>No edits made, submit skipped");
 			}
+			return;
+		}
+		if (event.currentTarget.id == 'btnResetCombo') {
+			location.reload();
 			return;
 		}
 		var role1 = $(".typeaheadedit1").val();
@@ -239,6 +242,8 @@ $(document).ready(function () {
 	}
 
 	function uploadWujiangBannedMap(outputwrapperid) {
+		if(!authenticateToken(outputwrapperid)) return;
+
 		var httpReq = new XMLHttpRequest();
 		var url = 'https://api.dropboxapi.com/2/paper/docs/download';
 		httpReq.open("GET", url, false);
@@ -262,6 +267,7 @@ $(document).ready(function () {
 		console.log('Uploaded total wujiangBannedMap entries: ' + Object.keys(wujiangBannedMap).length);
 		$(outputwrapperid).append("<br/>Uploaded total wujiangBannedMap entries: " + Object.keys(wujiangBannedMap).length);
 		$(outputwrapperid).append("<br/>Success!");
+		editMade = false;
 	}
 
 	function selectHandler(obj, datum, name) {
@@ -431,9 +437,10 @@ $(document).ready(function () {
 		$(".typeaheadmain").focus();
 	});
 
-	$("#btnAddCombo").on("click", btnAddDeleteComboHandler);
-	$("#btnDeleteCombo").on("click", btnAddDeleteComboHandler);
-	$("#btnEditSubmit").on("click", btnAddDeleteComboHandler);
+	$("#btnResetCombo").on("click", btnGlobalHandler);
+	$("#btnAddCombo").on("click", btnGlobalHandler);
+	$("#btnDeleteCombo").on("click", btnGlobalHandler);
+	$("#btnEditSubmit").on("click", btnGlobalHandler);
 	$("#btnEditClear").click(function (event) {
 		$('.typeaheadedit1, .typeaheadedit2').typeahead('val', '');
 		$("#editoutputwrapper").text("");
