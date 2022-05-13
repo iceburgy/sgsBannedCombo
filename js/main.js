@@ -10,6 +10,7 @@ $(document).ready(function () {
 	var PAGE = "page";
 	var BUTTON = "button";
 	var editMade = false;
+	var useDropbox = false;
 
 	function populateBase(baseMap, baseSet) {
 		wujiangBaseMap = baseMap;
@@ -17,96 +18,108 @@ $(document).ready(function () {
 	}
 
 	function readSgsWujiangBaseMap() {
-		$.ajax({
-			url: "https://api.dropboxapi.com/2/paper/docs/download",
-			async: true,
-			type: "GET",
-			headers: {
-				"Authorization": "Bearer wzahoqHWjoQAAAAAAAAAFV2iwzrw_BFSgaena__5iraqztOyTepnnUc5J1S-73FM",
-				"Dropbox-API-Arg": "{\"doc_id\": \"UQrFsr20jVBKgsJPDBoBj\",\"export_format\": \"markdown\"}"
-			},
-			success: function (result) {
-				var baseMap = result.split('\n');
-				baseMap.splice(0, 1);
-				baseMap = JSON.parse(baseMap.join(' '));
-				var baseSet = Object.keys(baseMap);
-
-				populateBase(baseMap, baseSet);
-
-				var container = $("<div>").addClass("activePage")
-					.attr({
-						id: PAGE + "1"
-					});
-				$.each(baseSet, function (i, name) {
-					container.append(renderWujiang(name, baseMap[name]));
-					if ((i + 1) % wujiangPageSize == 0 || i + 1 == baseSet.length) {
-						//$("#wujiang").append(container);
-						container = $("<div>").addClass("visuallyHidden")
-							.attr({
-								id: PAGE + (Math.floor((i + 1) / wujiangPageSize) + 1)
-							});
-					}
-				});
-				paginationBar = $("<div>").addClass("w3-bar w3-center paginationBar");
-				paginationBar.append($("<a>")
-					.attr({
-						href: "javascript:void(0)",
-						id: BUTTON + "Prev"
-					})
-					.addClass("w3-bar-item w3-button pageButton")
-					.html("?"));
-				for (i = 0; i <= (baseSet.length - 1) / wujiangPageSize; i++) {
-					var pageNum = i + 1;
-					var darkGrey = "";
-					if (i == 0) {
-						darkGrey = "w3-dark-grey";
-					}
-					paginationBar.append($("<a>")
-						.attr({
-							href: "javascript:void(0)",
-							id: BUTTON + pageNum
-						})
-						.addClass("w3-bar-item w3-button pageButton " + darkGrey)
-						.html(pageNum));
+		if(useDropbox){
+			$.ajax({
+				url: "https://api.dropboxapi.com/2/paper/docs/download",
+				async: true,
+				type: "GET",
+				headers: {
+					"Authorization": "Bearer wzahoqHWjoQAAAAAAAAAFV2iwzrw_BFSgaena__5iraqztOyTepnnUc5J1S-73FM",
+					"Dropbox-API-Arg": "{\"doc_id\": \"UQrFsr20jVBKgsJPDBoBj\",\"export_format\": \"markdown\"}"
+				},
+				success: function (result) {
+					var baseMap = result.split('\n');
+					baseMap.splice(0, 1);
+					baseMap = JSON.parse(baseMap.join(' '));
+					processBaseMap(baseMap);
 				}
-				paginationBar.append($("<a>")
-					.attr({
-						href: "javascript:void(0)",
-						id: BUTTON + "Next"
-					})
-					.addClass("w3-bar-item w3-button pageButton")
-					.html("?"));
-				//$("#wujiang").append(paginationBar);
+			});
+		}else{
+			processBaseMap(wujiangBaseMapObj);
+		}
+	}
 
-				$('.typeahead').typeahead({
-					hint: false,
-					highlight: true,
-					minLength: 0
-				}, {
-					name: 'bannedKeys',
-					source: substringMatcher(baseSet),
-					limit: dropdownSize
-				});
+	function processBaseMap(baseMap){
+		var baseSet = Object.keys(baseMap);
+
+		populateBase(baseMap, baseSet);
+
+		var container = $("<div>").addClass("activePage")
+			.attr({
+				id: PAGE + "1"
+			});
+		$.each(baseSet, function (i, name) {
+			container.append(renderWujiang(name, baseMap[name]));
+			if ((i + 1) % wujiangPageSize == 0 || i + 1 == baseSet.length) {
+				//$("#wujiang").append(container);
+				container = $("<div>").addClass("visuallyHidden")
+					.attr({
+						id: PAGE + (Math.floor((i + 1) / wujiangPageSize) + 1)
+					});
 			}
+		});
+		paginationBar = $("<div>").addClass("w3-bar w3-center paginationBar");
+		paginationBar.append($("<a>")
+			.attr({
+				href: "javascript:void(0)",
+				id: BUTTON + "Prev"
+			})
+			.addClass("w3-bar-item w3-button pageButton")
+			.html("?"));
+		for (i = 0; i <= (baseSet.length - 1) / wujiangPageSize; i++) {
+			var pageNum = i + 1;
+			var darkGrey = "";
+			if (i == 0) {
+				darkGrey = "w3-dark-grey";
+			}
+			paginationBar.append($("<a>")
+				.attr({
+					href: "javascript:void(0)",
+					id: BUTTON + pageNum
+				})
+				.addClass("w3-bar-item w3-button pageButton " + darkGrey)
+				.html(pageNum));
+		}
+		paginationBar.append($("<a>")
+			.attr({
+				href: "javascript:void(0)",
+				id: BUTTON + "Next"
+			})
+			.addClass("w3-bar-item w3-button pageButton")
+			.html("?"));
+		//$("#wujiang").append(paginationBar);
+
+		$('.typeahead').typeahead({
+			hint: false,
+			highlight: true,
+			minLength: 0
+		}, {
+			name: 'bannedKeys',
+			source: substringMatcher(baseSet),
+			limit: dropdownSize
 		});
 	}
 
 	function readSgsWujiangBannedMap() {
-		$.ajax({
-			url: "https://api.dropboxapi.com/2/paper/docs/download",
-			async: true,
-			type: "GET",
-			headers: {
-				"Authorization": "Bearer wzahoqHWjoQAAAAAAAAAFV2iwzrw_BFSgaena__5iraqztOyTepnnUc5J1S-73FM",
-				"Dropbox-API-Arg": "{\"doc_id\": \"gO8sAY4eYAlF2OQ6QPk5T\",\"export_format\": \"markdown\"}"
-			},
-			success: function (result) {
-				var bannedMap = result.split('\n');
-				bannedMap.splice(0, 1);
-				bannedMap = JSON.parse(bannedMap.join('\n'));
-				populateBannedMap(bannedMap);
-			}
-		});
+		if(useDropbox){
+			$.ajax({
+				url: "https://api.dropboxapi.com/2/paper/docs/download",
+				async: true,
+				type: "GET",
+				headers: {
+					"Authorization": "Bearer wzahoqHWjoQAAAAAAAAAFV2iwzrw_BFSgaena__5iraqztOyTepnnUc5J1S-73FM",
+					"Dropbox-API-Arg": "{\"doc_id\": \"gO8sAY4eYAlF2OQ6QPk5T\",\"export_format\": \"markdown\"}"
+				},
+				success: function (result) {
+					var bannedMap = result.split('\n');
+					bannedMap.splice(0, 1);
+					bannedMap = JSON.parse(bannedMap.join('\n'));
+					populateBannedMap(bannedMap);
+				}
+			});
+		}else{
+			populateBannedMap(wujiangBannedMapObj);
+		}
 	}
 
 	function populateBannedMap(bannedMap) {
@@ -114,18 +127,22 @@ $(document).ready(function () {
 	}
 
 	function readSgsGameRules() {
-		$.ajax({
-			url: "https://api.dropboxapi.com/2/paper/docs/download",
-			async: true,
-			type: "GET",
-			headers: {
-				"Authorization": "Bearer wzahoqHWjoQAAAAAAAAAFV2iwzrw_BFSgaena__5iraqztOyTepnnUc5J1S-73FM",
-				"Dropbox-API-Arg": "{\"doc_id\": \"8vMPGb0J3phwyY8zQjJmP\",\"export_format\": \"markdown\"}"
-			},
-			success: function (result) {
-				$("#gameRules").html(result.split('\n').join("<br/>"));
-			}
-		});
+		if(useDropbox){
+			$.ajax({
+				url: "https://api.dropboxapi.com/2/paper/docs/download",
+				async: true,
+				type: "GET",
+				headers: {
+					"Authorization": "Bearer wzahoqHWjoQAAAAAAAAAFV2iwzrw_BFSgaena__5iraqztOyTepnnUc5J1S-73FM",
+					"Dropbox-API-Arg": "{\"doc_id\": \"8vMPGb0J3phwyY8zQjJmP\",\"export_format\": \"markdown\"}"
+				},
+				success: function (result) {
+					$("#gameRules").html(result.split('\n').join("<br/>"));
+				}
+			});
+		}else{
+			$("#gameRules").html(gameRulesString.split('\n').join("<br/>"));
+		}
 	}
 
 	var substringMatcher = function (strs) {
@@ -412,6 +429,16 @@ $(document).ready(function () {
 		if (updated) uploadWujiangBannedMap('#outputwrapper');
 	}
 
+	function initializeHomePage() {
+		$("#overlay").remove();
+		validate();
+		performResizing();
+	}
+
+	if(!useDropbox){
+		$("#a_editJinJiangBiao").remove();
+	}
+
 	$(".menuButton").click(function (data) {
 		$.each($(".w3-container"), function (i, element) {
 			$(element).hide();
@@ -480,10 +507,10 @@ $(document).ready(function () {
 	readSgsWujiangBaseMap();
 	readSgsWujiangBannedMap();
 
-	$(document).ajaxStop(function () {
-		$("#overlay").remove();
-		validate();
-		performResizing();
-	});
+	if(useDropbox){
+		$(document).ajaxStop(initializeHomePage);
+	}else{
+		initializeHomePage();
+	}
 
 });
